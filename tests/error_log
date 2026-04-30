@@ -1,0 +1,20 @@
+[31-Aug-2024 02:03:27 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Testing\TestCase' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php on line 7
+[22-Sep-2024 07:17:03 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Testing\TestCase' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php on line 7
+[28-Sep-2024 11:09:59 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Testing\TestCase' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php on line 7
+[29-Sep-2024 17:59:00 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Testing\TestCase' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php on line 7
+[01-Oct-2024 05:30:11 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Testing\TestCase' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/tests/TestCase.php on line 7

@@ -1,0 +1,64 @@
+[22-Sep-2024 07:17:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Route' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/api.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/api.php on line 17
+[22-Sep-2024 07:17:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Broadcast' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/channels.php on line 16
+[22-Sep-2024 07:17:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Artisan' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/console.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/console.php on line 17
+[22-Sep-2024 07:17:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Route' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/web.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/web.php on line 15
+[28-Sep-2024 11:09:57 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Route' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/api.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/api.php on line 17
+[28-Sep-2024 11:09:58 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Broadcast' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/channels.php on line 16
+[28-Sep-2024 11:09:58 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Artisan' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/console.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/console.php on line 17
+[28-Sep-2024 11:09:58 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Route' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/web.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/web.php on line 15
+[29-Sep-2024 17:58:58 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Route' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/api.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/api.php on line 17
+[29-Sep-2024 17:58:58 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Broadcast' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/channels.php on line 16
+[29-Sep-2024 17:58:59 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Artisan' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/console.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/console.php on line 17
+[29-Sep-2024 17:58:59 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Route' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/web.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/web.php on line 15
+[01-Oct-2024 05:30:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Route' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/api.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/api.php on line 17
+[01-Oct-2024 05:30:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Broadcast' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/channels.php on line 16
+[01-Oct-2024 05:30:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Artisan' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/console.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/console.php on line 17
+[01-Oct-2024 05:30:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\Facades\Route' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/web.php:15
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/routes/web.php on line 15

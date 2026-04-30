@@ -1,0 +1,40 @@
+[22-Dec-2022 13:28:03 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[22-Dec-2022 13:28:03 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[22-Dec-2022 13:43:04 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[22-Dec-2022 13:43:05 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[15-Apr-2023 10:40:30 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[15-Apr-2023 10:40:30 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[24-Jul-2023 20:05:22 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[24-Jul-2023 20:05:23 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[30-Aug-2024 11:54:38 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7
+[30-Aug-2024 11:54:39 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Http\Kernel' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Http/Kernel.php on line 7

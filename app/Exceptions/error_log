@@ -1,0 +1,40 @@
+[22-Dec-2022 13:27:42 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[22-Dec-2022 13:27:44 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[22-Dec-2022 13:42:47 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[22-Dec-2022 13:42:48 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[15-Apr-2023 10:40:25 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[15-Apr-2023 10:40:25 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[24-Jul-2023 20:04:46 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[24-Jul-2023 20:04:47 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[30-Aug-2024 11:53:51 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8
+[30-Aug-2024 11:53:51 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Exceptions/Handler.php on line 8

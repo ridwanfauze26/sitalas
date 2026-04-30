@@ -1,0 +1,172 @@
+[22-Dec-2022 13:28:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[22-Dec-2022 13:28:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[22-Dec-2022 13:28:12 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[22-Dec-2022 13:43:16 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[22-Dec-2022 13:43:17 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[22-Dec-2022 13:43:19 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[22-Dec-2022 13:43:20 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[22-Dec-2022 13:43:21 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php on line 8
+[22-Dec-2022 13:43:24 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php on line 8
+[22-Dec-2022 13:43:25 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\EventServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php on line 10
+[22-Dec-2022 13:43:26 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\EventServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php on line 10
+[22-Dec-2022 13:43:27 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\RouteServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php on line 8
+[22-Dec-2022 13:43:28 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\RouteServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php on line 8
+[15-Apr-2023 10:40:33 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[15-Apr-2023 10:40:34 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[15-Apr-2023 10:40:34 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[15-Apr-2023 10:40:34 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[15-Apr-2023 10:40:35 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php on line 8
+[15-Apr-2023 10:40:35 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php on line 8
+[15-Apr-2023 10:40:36 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\EventServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php on line 10
+[15-Apr-2023 10:40:36 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\EventServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php on line 10
+[15-Apr-2023 10:40:37 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\RouteServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php on line 8
+[15-Apr-2023 10:40:37 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\RouteServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php on line 8
+[24-Jul-2023 20:05:45 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[24-Jul-2023 20:05:47 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[24-Jul-2023 20:05:58 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[24-Jul-2023 20:05:59 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[24-Jul-2023 20:06:00 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php on line 8
+[24-Jul-2023 20:06:01 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php on line 8
+[24-Jul-2023 20:06:07 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\EventServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php on line 10
+[24-Jul-2023 20:06:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\EventServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php on line 10
+[24-Jul-2023 20:06:17 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\RouteServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php on line 8
+[24-Jul-2023 20:06:20 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\RouteServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php on line 8
+[30-Aug-2024 11:54:54 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[30-Aug-2024 11:54:54 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AppServiceProvider.php on line 7
+[30-Aug-2024 11:55:02 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[30-Aug-2024 11:55:04 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/AuthServiceProvider.php on line 8
+[30-Aug-2024 11:55:06 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php on line 8
+[30-Aug-2024 11:55:08 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Support\ServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/BroadcastServiceProvider.php on line 8
+[30-Aug-2024 11:55:09 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\EventServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php on line 10
+[30-Aug-2024 11:55:10 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\EventServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/EventServiceProvider.php on line 10
+[30-Aug-2024 11:55:16 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\RouteServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php on line 8
+[30-Aug-2024 11:55:19 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Support\Providers\RouteServiceProvider' not found in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php:8
+Stack trace:
+#0 {main}
+  thrown in /home/bpmsph/public_html/sitalas.bpmsph.org/app/Providers/RouteServiceProvider.php on line 8
