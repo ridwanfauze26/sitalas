@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('judul', Auth::user()->role == 'admin' ? 'HALAMAN ADMIN' : 'HALAMAN USER')
+@section('judul', Auth::user()->role == 'admin' ? 'Detail Cuti' : 'HALAMAN USER')
 @section('content')
 <div class="row">
     <div class="col-lg-12">
