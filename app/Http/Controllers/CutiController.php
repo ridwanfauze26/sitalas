@@ -67,29 +67,29 @@ class CutiController extends Controller
             ['user_id' => $userId, 'tahun' => $year],
             ['jatah' => 12, 'dipakai' => 0]
         );
-        $n1 = CutiTahunanBalance::firstOrCreate(
-            ['user_id' => $userId, 'tahun' => $year - 1],
-            ['jatah' => 12, 'dipakai' => 0]
-        );
-        $n2 = CutiTahunanBalance::firstOrCreate(
-            ['user_id' => $userId, 'tahun' => $year - 2],
-            ['jatah' => 12, 'dipakai' => 0]
-        );
+        // $n1 = CutiTahunanBalance::firstOrCreate(
+        //     ['user_id' => $userId, 'tahun' => $year - 1],
+        //     ['jatah' => 12, 'dipakai' => 0]
+        // );
+        // $n2 = CutiTahunanBalance::firstOrCreate(
+        //     ['user_id' => $userId, 'tahun' => $year - 2],
+        //     ['jatah' => 12, 'dipakai' => 0]
+        // );
 
         $sisaN = max(0, (int) $n->jatah - (int) $n->dipakai);
-        $sisaN1Raw = max(0, (int) $n1->jatah - (int) $n1->dipakai);
-        $sisaN2Raw = max(0, (int) $n2->jatah - (int) $n2->dipakai);
+        // $sisaN1Raw = max(0, (int) $n1->jatah - (int) $n1->dipakai);
+        // $sisaN2Raw = max(0, (int) $n2->jatah - (int) $n2->dipakai);
 
-        $carryCap = 6;
-        $carryTotal = min($carryCap, $sisaN1Raw + $sisaN2Raw);
-        $sisaN1 = min($sisaN1Raw, $carryTotal);
-        $sisaN2 = max(0, $carryTotal - $sisaN1);
+        // $carryCap = 6;
+        // $carryTotal = min($carryCap, $sisaN1Raw + $sisaN2Raw);
+        // $sisaN1 = min($sisaN1Raw, $carryTotal);
+        // $sisaN2 = max(0, $carryTotal - $sisaN1);
 
         return response()->json([
             'tahun' => $year,
             'N' => $sisaN,
-            'N-1' => $sisaN1,
-            'N-2' => $sisaN2,
+            // 'N-1' => $sisaN1,
+            // 'N-2' => $sisaN2,
         ]);
     }
 
@@ -539,6 +539,22 @@ class CutiController extends Controller
     public function pdf($id)
     {
         $cuti = $this->findCutiOrFail($id);
+        $tahunBulan = substr($cuti->user->nip, 8, 6);
+
+        // Pisahkan tahun dan bulan
+        $tahun = substr($tahunBulan, 0, 4);
+        $bulan = substr($tahunBulan, 4, 2);
+
+        $tanggalMasuk = Carbon::createFromDate($tahun, $bulan, 1);
+        $sekarang = Carbon::now();
+        $diff = $tanggalMasuk->diff($sekarang);
+        $masaKerja = "";
+        if($diff->y>0 && $diff->m>0 ){
+            $masaKerja = "{$diff->y} tahun {$diff->y} bulan";
+        }else
+        {
+            $masaKerja = "{$diff->y} tahun";
+        }
 
         if ($cuti->status_pengajuan !== 'Disetujui') {
             abort(403, 'PDF hanya tersedia jika cuti sudah disetujui');
@@ -561,11 +577,12 @@ class CutiController extends Controller
 
         $pdf = Pdf::loadView('cuti.pdf', [
             'cuti' => $cuti,
+            'masaKerja' => $masaKerja,
             'approverLevel1' => $approverLevel1,
             'approverLevel2' => $approverLevel2,
             'qrDataUri' => $qrDataUri,
             'pdfUrl' => $pdfUrl,
-        ])->setPaper('a4', 'portrait');
+        ])->setPaper('legal', 'portrait');
 
         return $pdf->stream('cuti-' . $cuti->id . '.pdf');
     }

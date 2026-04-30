@@ -78,8 +78,9 @@
                     <div style="height:10px;"></div>
                     <div style="font-weight:bold;">BOGOR,</div>
                     <div style="height:10px;"></div>
-                    <div>Yth. <span class="dots"></span></div>
-                    <div>di. <span class="dots"></span></div>
+                    <div>Yth. Kepala BPMSPH Bogor</span></div>
+                    <div>di Tempat</span></div>
+                    <!-- <div>di. <span class="dots"></span></div> -->
                 </td>
             </tr>
         </table>
@@ -116,7 +117,8 @@
                     </tr>
                     <tr>
                         <td class="no-border">Masa Kerja</td>
-                        <td class="no-border">: {{ data_get($cuti->user, 'masa_kerja') ?? (data_get($cuti->user, 'tmt') || data_get($cuti->user, 'tanggal_masuk') ? (function () use ($cuti) {
+                        <td class="no-border">: {{ $masaKerja }}
+                            <!-- {{ data_get($cuti->user, 'masa_kerja') ?? (data_get($cuti->user, 'tmt') || data_get($cuti->user, 'tanggal_masuk') ? (function () use ($cuti) {
                             $tmt = data_get($cuti->user, 'tmt') ?? data_get($cuti->user, 'tanggal_masuk');
                             try {
                                 $start = \Carbon\Carbon::parse($tmt);
@@ -125,7 +127,7 @@
                             } catch (\Throwable $e) {
                                 return '-';
                             }
-                        })() : '-') }}
+                        })() : '-') }} -->
                     </tr>
                 </table>
             </td>
@@ -178,7 +180,7 @@
                 <table style="width:100%;" class="no-border">
                     <tr>
                         <td class="no-border" style="width:45%;">Selama : {{ $cuti->lama_cuti }} {{ ($cuti->jenis_cuti === 'cuti_luar_tanggungan' || $cuti->jenis_cuti === 'cuti_besar') ? '(bulan)' : '(hari)' }}</td>
-                        <td class="no-border" style="width:25%;">Mulai : {{ $cuti->tanggal_mulai ? \Carbon\Carbon::parse($cuti->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
+                        <td class="no-border" style="width:25%;">Mulai Tanggal : {{ $cuti->tanggal_mulai ? \Carbon\Carbon::parse($cuti->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
                         <td class="no-border" style="width:30%;">s/d : {{ $cuti->tanggal_selesai ? \Carbon\Carbon::parse($cuti->tanggal_selesai)->format('d/m/Y') : '-' }}</td>
                     </tr>
                 </table>
