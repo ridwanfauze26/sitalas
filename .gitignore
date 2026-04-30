@@ -14,5 +14,4 @@ yarn-error.log
 /storage/logs/
 /bootstrap/cache/
 *.log
-*.sql
 php_error.log
