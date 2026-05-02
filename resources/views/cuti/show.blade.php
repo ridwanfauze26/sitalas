@@ -8,7 +8,8 @@
                 <h4 class="m-b-0 text-white">
                     <a class="btn btn-sm btn-danger" href="{{ Auth::user()->role == 'admin' ? route('cuti.admin.index') : route('cuti.index') }}" role="button">Kembali</a>
                     @if($cuti->status_pengajuan === 'Disetujui')
-                        <a class="btn btn-sm btn-success" href="{{ route('cuti.pdf', $cuti->id) }}" target="_blank" rel="noopener" role="button" style="margin-left:8px;">Cetak PDF</a>
+                        <a class="btn btn-sm btn-success" href="{{ route('cuti.pdf', ['id'=>$cuti->id, 'qr'=>0]) }}" target="_blank" rel="noopener" role="button" style="margin-left:8px;">Cetak PDF</a>
+                        <a class="btn btn-sm btn-primary" href="{{ route('cuti.pdf', ['id'=>$cuti->id, 'qr'=>1]) }}" target="_blank" rel="noopener" role="button" style="margin-left:8px;">Cetak PDF QRCode</a>
                     @endif
                 </h4>
             </div>

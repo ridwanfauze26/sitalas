@@ -554,7 +554,7 @@ class CutiController extends Controller
         return view('cuti.show', compact('cuti'));
     }
 
-    public function pdf($id)
+    public function pdf($id,$qr)
     {
         $cuti = $this->findCutiOrFail($id);
         $tahunBulan = substr($cuti->user->nip, 8, 6);
@@ -593,7 +593,7 @@ class CutiController extends Controller
         $approverLevel1 = $cuti->approved_level1_by ? User::find($cuti->approved_level1_by) : null;
         $approverLevel2 = $cuti->approved_level2_by ? User::find($cuti->approved_level2_by) : null;
 
-        $pdfUrl = route('cuti.pdf', $cuti->id);
+        $pdfUrl = route('cuti.pdf', ['id'=>$cuti->id, 'qr'=>$qr]);
 
         $qrDataUri = null;
         if (class_exists(QrCode::class) && class_exists(PngWriter::class)) {
@@ -608,7 +608,7 @@ class CutiController extends Controller
             'masaKerja' => $masaKerja,
             'approverLevel1' => $approverLevel1,
             'approverLevel2' => $approverLevel2,
-            'qrDataUri' => $qrDataUri,
+            'qrDataUri' => $qr ? $qrDataUri : null,
             'pdfUrl' => $pdfUrl,
         ])->setPaper('legal', 'portrait');
 

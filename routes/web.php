@@ -28,7 +28,7 @@ Route::post('/cuti', 'CutiController@store')->middleware('auth')->name('cuti.sto
 Route::get('/cuti/tahunan/saldo', 'CutiController@tahunanSaldo')->middleware('auth')->name('cuti.tahunan.saldo');
 
 Route::get('/cuti/{id}', 'CutiController@show')->middleware('auth')->name('cuti.show');
-Route::get('/cuti/{id}/pdf', 'CutiController@pdf')->middleware('auth')->name('cuti.pdf');
+Route::get('/cuti/{id}/{qr}/pdf', 'CutiController@pdf')->middleware('auth')->name('cuti.pdf');
 Route::get('/cuti/{id}/edit', 'CutiController@edit')->middleware('auth')->name('cuti.edit');
 Route::put('/cuti/{id}', 'CutiController@update')->middleware('auth')->name('cuti.update');
 Route::delete('/cuti/{id}', 'CutiController@destroy')->middleware('auth')->name('cuti.destroy');
