@@ -64,9 +64,10 @@ class CutiController extends Controller
         $userId = (int) Auth::user()->id;
 
         $jenisCuti = "cuti_tahunan";
-        $totalCuti = Cuti::where('user_id', Auth::user()->id)
+        $totalCuti = \App\Cuti::where('user_id', $userId)
             ->where('jenis_cuti', $jenisCuti)
             ->where('tahun_cuti', $year)
+            ->where('status_pengajuan','Disetujui')
             ->sum('lama_cuti');
         
         
@@ -391,22 +392,28 @@ class CutiController extends Controller
         $carryN2 = max(0, $carryTotal - $carryN1);
 
         $totalAvailable = $sisaN + $carryTotal;
-        if ($hariKerja > $totalAvailable) {
-            abort(400, 'Saldo cuti tahunan tidak mencukupi');
-        }
+        // if ($hariKerja > $totalAvailable) {
+        //     abort(400, 'Saldo cuti tahunan tidak mencukupi');
+        // }
 
         $potongN = min($hariKerja, $sisaN);
-        $remaining = $hariKerja - $potongN;
+        // $remaining = $hariKerja - $potongN;
 
         $potongN1 = 0;
         $potongN2 = 0;
-        if ($remaining > 0) {
-            $potongN1 = min($remaining, $carryN1);
-            $remaining -= $potongN1;
-        }
-        if ($remaining > 0) {
-            $potongN2 = min($remaining, $carryN2);
-            $remaining -= $potongN2;
+        // if ($remaining > 0) {
+        //     $potongN1 = min($remaining, $carryN1);
+        //     $remaining -= $potongN1;
+        // }
+        // if ($remaining > 0) {
+        //     $potongN2 = min($remaining, $carryN2);
+        //     $remaining -= $potongN2;
+        // }
+
+        if((int)$n->dipakai==0){
+            $cuti->potong_n = (int) $n->jatah - (int) $cuti->lama_cuti;
+        }else{
+            $cuti->potong_n = (int) $n->jatah - ((int) $cuti->lama_cuti + (int)$n->dipakai);
         }
 
         $n->dipakai = (int) $n->dipakai + (int) $potongN;
@@ -420,7 +427,9 @@ class CutiController extends Controller
             $n2->save();
         }
 
-        $cuti->potong_n = $potongN;
+        
+
+        
         $cuti->potong_n1 = $potongN1;
         $cuti->potong_n2 = $potongN2;
     }
@@ -554,16 +563,26 @@ class CutiController extends Controller
         $tahun = substr($tahunBulan, 0, 4);
         $bulan = substr($tahunBulan, 4, 2);
 
-        $tanggalMasuk = Carbon::createFromDate($tahun, $bulan, 1);
-        $sekarang = Carbon::now();
-        $diff = $tanggalMasuk->diff($sekarang);
         $masaKerja = "";
-        if($diff->y>0 && $diff->m>0 ){
-            $masaKerja = "{$diff->y} tahun {$diff->y} bulan";
-        }else
-        {
-            $masaKerja = "{$diff->y} tahun";
+        $year = (int) date('Y');
+        
+        if($bulan=='21'){
+            $p3kmasaKerja = $year-(int)$tahun-1;
+            $masaKerja = "{$p3kmasaKerja} tahun";
+        }else{
+            $tanggalMasuk = Carbon::createFromDate($tahun, $bulan, 1);
+            $sekarang = Carbon::now();
+            $diff = $tanggalMasuk->diff($sekarang);
+            
+            
+            if($diff->y>0 && $diff->m>0 ){
+                $masaKerja = "{$diff->y} tahun {$diff->y} bulan";
+            }else
+            {
+                $masaKerja = "{$diff->y} tahun";
+            }
         }
+        
 
         if ($cuti->status_pengajuan !== 'Disetujui') {
             abort(403, 'PDF hanya tersedia jika cuti sudah disetujui');

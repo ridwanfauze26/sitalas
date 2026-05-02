@@ -222,8 +222,8 @@
                                 </tr>
                                 <tr>
                                     <td>N</td>
-                                    <td></td>
-                                    <td>{{ $potN > 0 ? 'Dipakai ' . $potN . ' hari (Tahun ' . $tahunCuti . ')' : ($cuti->jenis_cuti === 'cuti_tahunan' ? 'Tahun ' . $tahunCuti : '') }}</td>
+                                    <td>{{ $cuti->potong_n }}</td>
+                                    <td>{{ $cuti->potong_n >= 0 ? 'Dipakai ' . 12-$cuti->potong_n . ' hari (Tahun ' . $tahunCuti . ')' : ($cuti->jenis_cuti === 'cuti_tahunan' ? 'Tahun ' . $tahunCuti : '') }}</td>
                                 </tr>
                             </table>
                         </td>
@@ -254,7 +254,10 @@
                     </tr>
                 </table>
                 <div class="mt-10">Hormat saya,</div>
-                <div style="height:28px;"></div>
+                <div style="height:50px;"> 
+                    @if($qrDataUri)
+                         <img class="qr-img" src="{{ $qrDataUri }}" alt="QR">
+                    @endif</div>
                 <div>( {{ optional($cuti->user)->name }} )</div>
                 <div>NIP {{ optional($cuti->user)->nip }}</div>
             </td>
