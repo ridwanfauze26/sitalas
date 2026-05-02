@@ -43,9 +43,8 @@ class HomeController extends Controller
         if ($visibleLevels) {
             $query = \App\Cuti::with(['user', 'user.jabatan'])
                 ->where('status_pengajuan', 'Disetujui')
-                ->whereNotNull('tanggal_mulai')
-                ->whereNotNull('tanggal_selesai')
-                ->whereDate('tanggal_mulai', '=', $today);
+                ->whereDate('tanggal_mulai', '<=', $today)
+                ->whereDate('tanggal_selesai', '>=', $today);
 
             if (Auth::user()->role !== 'admin') {
                 $query->whereHas('user.jabatan', function ($q) use ($visibleLevels) {
@@ -127,9 +126,8 @@ class HomeController extends Controller
 
         $query = \App\Cuti::with(['user', 'user.jabatan'])
             ->where('status_pengajuan', 'Disetujui')
-            ->whereNotNull('tanggal_mulai')
-            ->whereNotNull('tanggal_selesai')
-            ->whereDate('tanggal_mulai', '=', $today);
+            ->whereDate('tanggal_mulai', '<=', $today)
+            ->whereDate('tanggal_selesai', '>=', $today);
 
         if (Auth::user()->role !== 'admin') {
             $query->whereHas('user.jabatan', function ($q) use ($visibleLevels) {
