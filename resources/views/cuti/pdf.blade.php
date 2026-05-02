@@ -253,6 +253,7 @@
                         <td class="no-border" style="width:60%;">: {{ $cuti->no_telepon }}</td>
                     </tr>
                 </table>
+                <div style="text-align:center;">
                 <div class="mt-10">Hormat saya,</div>
                 <div style="height:50px;"> 
                     @if($qrDataUri)
@@ -260,6 +261,7 @@
                     @endif</div>
                 <div>( {{ optional($cuti->user)->name }} )</div>
                 <div>NIP {{ optional($cuti->user)->nip }}</div>
+                </div>
             </td>
         </tr>
 
