@@ -40,7 +40,7 @@ class CutiController extends Controller
         if(Auth::user()->role != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
-
+        
         $cuti = \App\Cuti::with('user')->latest()->get();
         return view('cuti.admin', compact('cuti'));
     }
@@ -63,10 +63,17 @@ class CutiController extends Controller
         $year = (int) date('Y');
         $userId = (int) Auth::user()->id;
 
-        $n = CutiTahunanBalance::firstOrCreate(
-            ['user_id' => $userId, 'tahun' => $year],
-            ['jatah' => 12, 'dipakai' => 0]
-        );
+        $jenisCuti = "cuti_tahunan";
+        $totalCuti = Cuti::where('user_id', Auth::user()->id)
+            ->where('jenis_cuti', $jenisCuti)
+            ->where('tahun_cuti', $year)
+            ->sum('lama_cuti');
+        
+        
+        // $n = CutiTahunanBalance::firstOrCreate(
+        //     ['user_id' => $userId, 'tahun' => $year],
+        //     ['jatah' => 12, 'dipakai' => 0]
+        // );
         // $n1 = CutiTahunanBalance::firstOrCreate(
         //     ['user_id' => $userId, 'tahun' => $year - 1],
         //     ['jatah' => 12, 'dipakai' => 0]
@@ -76,7 +83,9 @@ class CutiController extends Controller
         //     ['jatah' => 12, 'dipakai' => 0]
         // );
 
-        $sisaN = max(0, (int) $n->jatah - (int) $n->dipakai);
+        // $sisaN = max(0, (int) $n->jatah - (int) $n->dipakai);
+        $sisaN = 12-$totalCuti;
+        // $sisaN = max(0, (int) $n->jatah - (int) $n->dipakai);
         // $sisaN1Raw = max(0, (int) $n1->jatah - (int) $n1->dipakai);
         // $sisaN2Raw = max(0, (int) $n2->jatah - (int) $n2->dipakai);
 
