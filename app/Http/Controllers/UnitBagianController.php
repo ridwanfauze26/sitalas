@@ -18,7 +18,8 @@ class UnitBagianController extends Controller
     public function index()
     {
         $unitBagian = \App\UnitBagian::orderBy('id')->get();
-        return view('unitbagian.index', compact('unitBagian'));
+        $jabatan = \App\Jabatan::where('level','2')->get();
+        return view('unitbagian.index', compact('unitBagian','jabatan'));
     }
 
     public function create()
@@ -30,6 +31,7 @@ class UnitBagianController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:100',
+            'jabatan_id'   => 'required'
         ]);
 
         \App\UnitBagian::insert($request->except('_token'));
@@ -44,7 +46,8 @@ class UnitBagianController extends Controller
     public function edit($id)
     {
         $unitBagian = \App\UnitBagian::findOrFail($id);
-        return view('unitbagian.edit', compact('unitBagian'));
+        $jabatan = \App\Jabatan::where('level','2')->get();
+        return view('unitbagian.edit', compact('unitBagian','jabatan'));
     }
 
     public function update(Request $request, $id)

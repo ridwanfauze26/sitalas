@@ -11,6 +11,7 @@ class CreateUnitBagianTable extends Migration
         Schema::create('unit_bagian', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nama', 100);
+            $table->foreignId('jabatan_id')->constrained('jabatan')->onDelete('cascade');
         });
     }
 

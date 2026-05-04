@@ -16,6 +16,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Unit Bagian</th>
+                                <th>Kepala Unit</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -24,6 +25,7 @@
                             <tr>
                                 <td class="text-center">{{$index+1}}</td>
                                 <td>{{$u->nama}}</td>
+                                <td>{{$u->jabatan->nama}}</td>
                                 <td class="text-center">
                                     <a href="{{route('unit-bagian.edit', $u->id)}}" class="btn btn-sm text-white" title="Edit" style="background-color:#6f42c1;width:38px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;">
                                         <i class="fa fa-pencil"></i>
@@ -58,7 +60,17 @@
                                         <label>Unit Bagian</label>
                                         <input type="text" name="nama" value="{{ old('nama') }}" class="form-control @error('nama') is-invalid @enderror" required>
                                         @error('nama')
-                                            <div class="alert alert-danger mt-1">{{ $message }}</div>
+                                        <div class="alert alert-danger mt-1">{{ $message }}</div>
+                                        @enderror
+                                        <label>Kapala Unit</label>
+                                        <select class="form-control @error('jabatan_id') is-invalid @enderror" name="jabatan_id" required>
+                                            <option value="">== Silahkan Pilih ==</option>
+                                            @foreach($jabatan as $kepala)
+                                            <option value="{{$kepala->id}}">{{$kepala->nama}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('jabatan_id')
+                                        <div class="alert alert-danger mt-1">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -78,11 +90,13 @@
 @endsection
 
 @push('js')
-    <script>
+<script>
     $(document).ready(function() {
         $('#table').DataTable({
-            order: [[ 0, 'asc' ]]
+            order: [
+                [0, 'asc']
+            ]
         });
     });
-    </script>
+</script>
 @endpush

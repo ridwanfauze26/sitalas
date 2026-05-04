@@ -15,12 +15,23 @@
                     @method('PUT')
                     <div class="form-body">
                         <div class="form-group row">
-                            <label class="control-label text-left col-md-3">Nama</label>
+                            <label class="control-label text-left col-md-3">Unit Bagian</label>
                             <div class="col-md-9">
-                            <input type="text" name="nama" value="{{$unitBagian->nama}}" class="form-control @error('nama') is-invalid @enderror" required>
-                            @error('nama')
+                                <input type="text" name="nama" value="{{$unitBagian->nama}}" class="form-control @error('nama') is-invalid @enderror" required>
+                                @error('nama')
                                 <div class="alert alert-danger mt-1">{{ $message }}</div>
-                            @enderror
+                                @enderror
+                            </div>
+                            <label class="control-label text-left col-md-3">Kepala Unit</label>
+                            <div class="col-md-9">
+                                <select class="form-control @error('kepala') is-invalid @enderror" name="kepala" required>
+                                    @foreach($jabatan as $kepala)
+                                    <option value="{{$kepala->id}}" @if($unitBagian->jabatan_id == $kepala->id) selected="selected" @endif>{{$kepala->nama}}</option>
+                                    @endforeach
+                                </select>
+                                @error('kepala')
+                                <div class="alert alert-danger mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
