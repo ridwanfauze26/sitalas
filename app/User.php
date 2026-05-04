@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function unitBagian()
     {
-        return $this->hasOne('App\UnitBagian', 'id', 'unit_bagian_id');
+        return $this->hasOne(UnitBagian::class, 'id', 'unit_bagian_id');
     }
 
     public function telegrams()
@@ -109,4 +109,5 @@ class User extends Authenticatable
     {
         return $this->role === 'verifikator';
     }
+
 }
