@@ -258,7 +258,8 @@
                 <div style="height:50px;"> 
                     @if($qrDataUri)
                          <img class="qr-img" src="{{ $qrDataUri }}" alt="QR">
-                    @endif</div>
+                    @endif
+                </div>
                 <div>( {{ optional($cuti->user)->name }} )</div>
                 <div>NIP {{ optional($cuti->user)->nip }}</div>
                 </div>
@@ -280,9 +281,11 @@
                     <tr>
                         <td class="approve-cell" style="height:85px;">
                             <div class="qr-wrap">
+                            <div style="height:50px;">
                                 @if($qrDataUri)
                                     <img class="qr-img" src="{{ $qrDataUri }}" alt="QR">
                                 @endif
+                            </div>
                             </div>
                             <div class="approve-name">{{ optional($approverLevel2)->name }}</div>
                             <div>NIP {{ optional($approverLevel2)->nip }}</div>
@@ -310,9 +313,11 @@
                     <tr>
                         <td class="approve-cell" style="height:85px;">
                             <div class="qr-wrap">
+                            <div style="height:50px;">
                                 @if($qrDataUri)
                                     <img class="qr-img" src="{{ $qrDataUri }}" alt="QR">
                                 @endif
+                            </div>
                             </div>
                             <div class="approve-name">{{ optional($approverLevel1)->name }}</div>
                             <div>NIP {{ optional($approverLevel1)->nip }}</div>
