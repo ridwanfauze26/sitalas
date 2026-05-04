@@ -104,4 +104,9 @@ class User extends Authenticatable
     {
         return $this->role === 'admin' || $this->isCutiApproverLevel1() || $this->isCutiApproverLevel2();
     }
+
+    public function isVerifikator()
+    {
+        return $this->role === 'verifikator';
+    }
 }

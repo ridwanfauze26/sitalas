@@ -274,7 +274,7 @@ class CutiController extends Controller
         }
 
         $query = \App\Cuti::with('user')->latest();
-
+    
         if (Auth::user()->role === 'admin') {
             $query->where(function ($q) {
                 $q->where('status_level1', 'Menunggu')
@@ -282,7 +282,7 @@ class CutiController extends Controller
             });
         } elseif (Auth::user()->isCutiApproverLevel1()) {
             $query->where('status_level1', 'Menunggu');
-        } elseif (Auth::user()->isCutiApproverLevel2()) {
+        } elseif (Auth::user()->isCutiApproverLevel2() && Auth::user()->isVerifikator()) {
             $query->where('status_level2', 'Menunggu');
         } else {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');

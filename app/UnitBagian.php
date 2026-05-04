@@ -13,4 +13,8 @@ class UnitBagian extends Model
     public function jabatan(){
         return $this->hasOne(Jabatan::class, 'id','jabatan_id');
     }
+
+    public function user(){
+        return $this->hasMany(User::class, 'unit_bagian_id', 'id');
+    }
 }
