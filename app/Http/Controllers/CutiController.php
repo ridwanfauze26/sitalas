@@ -274,7 +274,10 @@ class CutiController extends Controller
         }
 
         $query = \App\Cuti::with('user')->latest();
-    
+        $unitBagian = \App\UnitBagian::find(Auth::user()->unit_bagian_id);
+        // $unitBagian = \App\UnitBagian::where('jabatan_id',Auth::user()->jabatan_id)->get();
+        // foreach($unitBagian as $ub)
+        dd($unitBagian->nama);
         if (Auth::user()->role === 'admin') {
             $query->where(function ($q) {
                 $q->where('status_level1', 'Menunggu')
