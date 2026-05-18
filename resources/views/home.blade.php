@@ -1,6 +1,19 @@
 @extends('layouts.app')
 @section('judul','Beranda')
 @section('content')
+@if((int) Auth::user()->cuti_level === 3 && is_null(Auth::user()->unit_bagian_id))
+<div class="row">
+  <div class="col-md-12">
+    <div class="alert alert-danger d-flex align-items-center" role="alert" style="border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+      <i class="mdi mdi-alert-circle-outline mr-3" style="font-size: 24px;"></i>
+      <div>
+        <strong>PENTING:</strong> Anda belum mengatur <strong>Unit Bagian</strong> Anda. Anda tidak akan bisa mengajukan cuti sampai Anda mengaturnya. 
+        <a href="{{ route('pengguna.edit', Auth::user()->id) }}" class="alert-link font-weight-bold text-danger" style="text-decoration: underline; margin-left: 8px;">Atur Unit Bagian Sekarang &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>
+@endif
 <!-- <div class="row">
   <div class="col-md-12 grid-margin">
     <div class="d-flex justify-content-between flex-wrap">
@@ -37,6 +50,15 @@
                 <h5 class="mr-2 mb-0">{{ $belumBernomor }}</h5>
               </div>
             </div>
+            @if(Auth::user()->role != 'admin')
+            <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+            <a href="{{ route('cuti.index') }}"><i class="mdi mdi-calendar-text mr-3 icon-lg text-info"></i></a>
+              <div class="d-flex flex-column justify-content-around">
+                <small class="mb-1 text-muted">Sisa Cuti Tahunan ({{ date('Y') }})</small>
+                <h5 class="mr-2 mb-0">{{ $sisaCuti }} Hari</h5>
+              </div>
+            </div>
+            @endif
             @if(Auth::user()->role == 'admin')
             <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
             <a href="{{ route('klasifikasi-surat.index') }}"><i class="mdi mdi-note-text mr-3 icon-lg text-success"></i></a>
@@ -217,6 +239,17 @@
                 </div>
               </div>
             </div>
+          @if(Auth::user()->role != 'admin')
+          <div class="d-flex flex-grow-1 align-items-center justify-content-center p-3 item">
+            <a href="{{ route('cuti.index') }}"><i class="mdi mdi-calendar-text mr-3 icon-lg text-info"></i></a>
+              <div class="d-flex flex-column justify-content-around">
+                <div class="text-center" style="min-width:140px;">
+                  <small class="mb-1 text-muted d-block">Sisa Cuti Tahunan ({{ date('Y') }})</small>
+                  <h5 class="mb-0">{{ $sisaCuti }} Hari</h5>
+                </div>
+              </div>
+            </div>
+          @endif
           </div>
         </div>
       </div>

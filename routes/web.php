@@ -43,6 +43,8 @@ Route::delete('/cuti-admin/{id}', 'CutiController@adminDestroy')->middleware('au
 Route::get('/cuti-persetujuan', 'CutiController@persetujuanIndex')->middleware('auth')->name('cuti.persetujuan.index');
 Route::post('/cuti-persetujuan/{id}/approve', 'CutiController@approve')->middleware('auth')->name('cuti.persetujuan.approve');
 Route::post('/cuti-persetujuan/{id}/reject', 'CutiController@reject')->middleware('auth')->name('cuti.persetujuan.reject');
+Route::post('/cuti-persetujuan/{id}/postpone', 'CutiController@postpone')->middleware('auth')->name('cuti.persetujuan.postpone');
+Route::post('/cuti-persetujuan/{id}/change', 'CutiController@change')->middleware('auth')->name('cuti.persetujuan.change');
 
 Route::get('/telegram/connect', 'TelegramController@connect')->middleware('auth')->name('telegram.connect');
 

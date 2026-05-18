@@ -50,6 +50,7 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
                         <div class="form-group row">
                             <label class="control-label text-left col-md-3">Unit Bagian</label>
                             <div class="col-md-9">
@@ -64,6 +65,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @if(Auth::user()->role == 'admin')
                         <div class="form-group row">
                             <label class="control-label text-left col-md-3">Hak Akses</label>
                             <div class="col-md-9">

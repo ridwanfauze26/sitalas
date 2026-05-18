@@ -26,11 +26,23 @@
                                 <td class="text-center">{{$index+1}}</td>
                                 <td>{{ optional($c->user)->name }}</td>
                                 <td>{{$c->jenis_cuti}}</td>
-                                <td>{{ $c->tanggal_mulai ? \Carbon\Carbon::parse($c->tanggal_mulai)->format('d-m-Y') : '' }}</td>
-                                <td>{{ $c->tanggal_selesai ? \Carbon\Carbon::parse($c->tanggal_selesai)->format('d-m-Y') : '' }}</td>
+                                <td>{{ $c->tanggal_mulai ? \Carbon\Carbon::parse($c->tanggal_mulai)->format('d/m/Y') : '' }}</td>
+                                <td>{{ $c->tanggal_selesai ? \Carbon\Carbon::parse($c->tanggal_selesai)->format('d/m/Y') : '' }}</td>
                                 <td>{{$c->lama_cuti}}</td>
                                 <td>{{$c->alasan_cuti}}</td>
-                                <td class="text-center">{{$c->status_pengajuan}}</td>
+                                 <td class="text-center">
+                                     @if($c->status_pengajuan == 'Disetujui')
+                                         <span class="badge badge-success px-2 py-1" style="font-size: 11px; border-radius: 12px;">Disetujui</span>
+                                     @elseif($c->status_pengajuan == 'Ditolak')
+                                         <span class="badge badge-danger px-2 py-1" style="font-size: 11px; border-radius: 12px;">Ditolak</span>
+                                     @elseif($c->status_pengajuan == 'Ditangguhkan')
+                                         <span class="badge text-white px-2 py-1" style="background-color: #fd7e14; font-size: 11px; border-radius: 12px;">Ditangguhkan</span>
+                                     @elseif($c->status_pengajuan == 'Perubahan')
+                                         <span class="badge text-white px-2 py-1" style="background-color: #6f42c1; font-size: 11px; border-radius: 12px;">Perubahan</span>
+                                     @else
+                                         <span class="badge badge-secondary px-2 py-1" style="font-size: 11px; border-radius: 12px;">Menunggu</span>
+                                     @endif
+                                 </td>
                                 <td class="text-center">
                                     <a href="{{ route('cuti.admin.edit', $c->id) }}" class="btn btn-sm text-white" title="Edit" style="background-color:#6f42c1;width:38px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;">
                                         <i class="fa fa-pencil"></i>

@@ -79,14 +79,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Tanggal Mulai Cuti</label>
                                 <div class="col-sm-4">
-                                    <input type="date" class="form-control" name="tanggal_mulai" placeholder="">
+                                    <input type="text" class="form-control flatpickr" name="tanggal_mulai" placeholder="dd/mm/yyyy">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Tanggal Selesai Cuti</label>
                                 <div class="col-sm-4">
-                                    <input type="date" class="form-control" name="tanggal_selesai" placeholder="">
+                                    <input type="text" class="form-control flatpickr" name="tanggal_selesai" placeholder="dd/mm/yyyy">
                                 </div>
                             </div>
 
@@ -120,14 +120,6 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>N-2</td>
-                                                        <td id="saldoN2">-</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>N-1</td>
-                                                        <td id="saldoN1">-</td>
-                                                    </tr>
-                                                    <tr>
                                                         <td>N</td>
                                                         <td id="saldoN">-</td>
                                                     </tr>
@@ -159,8 +151,6 @@
 
         function setSaldo(data) {
             document.getElementById('saldoN').innerText = (data && data['N'] !== undefined) ? data['N'] : '-';
-            document.getElementById('saldoN1').innerText = (data && data['N-1'] !== undefined) ? data['N-1'] : '-';
-            document.getElementById('saldoN2').innerText = (data && data['N-2'] !== undefined) ? data['N-2'] : '-';
         }
 
         function fetchSaldo() {
@@ -228,6 +218,41 @@
             lamaCuti.addEventListener('input', refreshInfo);
             lamaCuti.addEventListener('change', refreshInfo);
         }
+        $(document).ready(function() {
+            if (typeof flatpickr !== 'undefined') {
+                flatpickr(".flatpickr", {
+                    locale: "id",
+                    dateFormat: "d/m/Y",
+                    allowInput: true,
+                    position: "above",
+                    onReady: function(selectedDates, dateStr, instance) {
+                        const footer = document.createElement("div");
+                        footer.className = "flatpickr-custom-footer";
+                        footer.innerHTML = `
+                            <div class="today-label">TODAY</div>
+                            <div class="divider">|</div>
+                            <div class="time-container">
+                                <div class="time-clock"></div>
+                                <div class="time-date"></div>
+                            </div>
+                        `;
+                        instance.calendarContainer.appendChild(footer);
+                        
+                        function updateTime() {
+                            const now = new Date();
+                            const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+                            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+                            const clockEl = footer.querySelector(".time-clock");
+                            const dateEl = footer.querySelector(".time-date");
+                            if (clockEl) clockEl.textContent = timeStr;
+                            if (dateEl) dateEl.textContent = dateStr;
+                        }
+                        updateTime();
+                        setInterval(updateTime, 1000);
+                    }
+                });
+            }
+        });
         refreshInfo();
     })();
 </script>

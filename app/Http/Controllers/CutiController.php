@@ -51,6 +51,11 @@ class CutiController extends Controller
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
+        if ((int) Auth::user()->cuti_level === 3 && is_null(Auth::user()->unit_bagian_id)) {
+            return redirect()->route('pengguna.edit', Auth::user()->id)
+                ->with('error', 'Silakan atur Unit Bagian Anda terlebih dahulu sebelum mengajukan cuti!');
+        }
+
         return view('cuti.ajukan');
     }
 
@@ -129,8 +134,32 @@ class CutiController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->has('tanggal_mulai') && $request->tanggal_mulai) {
+            try {
+                $request->merge([
+                    'tanggal_mulai' => \Carbon\Carbon::createFromFormat('d/m/Y', $request->tanggal_mulai)->format('Y-m-d')
+                ]);
+            } catch (\Exception $e) {
+                // Fallback
+            }
+        }
+        if ($request->has('tanggal_selesai') && $request->tanggal_selesai) {
+            try {
+                $request->merge([
+                    'tanggal_selesai' => \Carbon\Carbon::createFromFormat('d/m/Y', $request->tanggal_selesai)->format('Y-m-d')
+                ]);
+            } catch (\Exception $e) {
+                // Fallback
+            }
+        }
+
         if(Auth::user()->role == 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
+        }
+
+        if ((int) Auth::user()->cuti_level === 3 && is_null(Auth::user()->unit_bagian_id)) {
+            return redirect()->route('pengguna.edit', Auth::user()->id)
+                ->with('error', 'Silakan atur Unit Bagian Anda terlebih dahulu sebelum mengajukan cuti!');
         }
 
         $request->validate([
@@ -246,10 +275,20 @@ class CutiController extends Controller
         }
 
         if ($targetLevels) {
+            $applicantUnitId = Auth::user()->unit_bagian_id;
             $users = User::with('jabatan')
                 ->get()
-                ->filter(function ($u) use ($targetLevels) {
-                    return in_array((int) $u->cuti_level, $targetLevels, true);
+                ->filter(function ($u) use ($targetLevels, $applicantUnitId) {
+                    $uLevel = (int) $u->cuti_level;
+                    if (!in_array($uLevel, $targetLevels, true)) {
+                        return false;
+                    }
+                    if ($uLevel === 2) {
+                        $managedUnit = \App\UnitBagian::where('jabatan_id', $u->jabatan_id)->first();
+                        $unitId = $managedUnit ? $managedUnit->id : $u->unit_bagian_id;
+                        return $unitId && (int) $unitId === (int) $applicantUnitId;
+                    }
+                    return true;
                 });
 
             foreach ($users as $u) {
@@ -274,10 +313,7 @@ class CutiController extends Controller
         }
 
         $query = \App\Cuti::with('user')->latest();
-        $unitBagian = \App\UnitBagian::find(Auth::user()->unit_bagian_id);
-        // $unitBagian = \App\UnitBagian::where('jabatan_id',Auth::user()->jabatan_id)->get();
-        // foreach($unitBagian as $ub)
-        dd($unitBagian->nama);
+        
         if (Auth::user()->role === 'admin') {
             $query->where(function ($q) {
                 $q->where('status_level1', 'Menunggu')
@@ -285,15 +321,49 @@ class CutiController extends Controller
             });
         } elseif (Auth::user()->isCutiApproverLevel1()) {
             $query->where('status_level1', 'Menunggu');
-        } elseif (Auth::user()->isCutiApproverLevel2() && Auth::user()->isVerifikator()) {
+        } elseif (Auth::user()->isCutiApproverLevel2()) {
             $query->where('status_level2', 'Menunggu');
+            
+            $managedUnit = \App\UnitBagian::where('jabatan_id', Auth::user()->jabatan_id)->first();
+            $unitId = $managedUnit ? $managedUnit->id : Auth::user()->unit_bagian_id;
+            
+            if ($unitId) {
+                $query->whereHas('user', function ($q) use ($unitId) {
+                    $q->where('unit_bagian_id', $unitId);
+                });
+            } else {
+                $query->whereNull('id'); // return empty if no unit mapped
+            }
         } else {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
         $cuti = $query->get();
 
-        return view('cuti.persetujuan', compact('cuti'));
+        // Query untuk Riwayat Cuti (Disetujui)
+        $historyQuery = \App\Cuti::with('user')->where('status_pengajuan', 'Disetujui')->latest();
+
+        if (Auth::user()->role === 'admin') {
+            // Admin sees all
+        } elseif (Auth::user()->isCutiApproverLevel1()) {
+            // Level 1 sees all approved leaves
+        } elseif (Auth::user()->isCutiApproverLevel2()) {
+            // Level 2 sees only their unit's approved leaves
+            $managedUnit = \App\UnitBagian::where('jabatan_id', Auth::user()->jabatan_id)->first();
+            $unitId = $managedUnit ? $managedUnit->id : Auth::user()->unit_bagian_id;
+            
+            if ($unitId) {
+                $historyQuery->whereHas('user', function ($q) use ($unitId) {
+                    $q->where('unit_bagian_id', $unitId);
+                });
+            } else {
+                $historyQuery->whereNull('id');
+            }
+        }
+
+        $historyCuti = $historyQuery->get();
+
+        return view('cuti.persetujuan', compact('cuti', 'historyCuti'));
     }
 
     private function determineApprovalLevel(\App\Cuti $cuti, Request $request)
@@ -317,6 +387,12 @@ class CutiController extends Controller
         }
 
         if (Auth::user()->isCutiApproverLevel2()) {
+            $managedUnit = \App\UnitBagian::where('jabatan_id', Auth::user()->jabatan_id)->first();
+            $unitId = $managedUnit ? $managedUnit->id : Auth::user()->unit_bagian_id;
+            
+            if (!$unitId || !$cuti->user || (int) $cuti->user->unit_bagian_id !== (int) $unitId) {
+                abort(403, 'Anda tidak memiliki akses untuk memverifikasi pengajuan dari unit bagian lain');
+            }
             return 2;
         }
 
@@ -330,10 +406,20 @@ class CutiController extends Controller
             return;
         }
 
+        if ($cuti->status_level1 === 'Ditangguhkan' || $cuti->status_level2 === 'Ditangguhkan') {
+            $cuti->status_pengajuan = 'Ditangguhkan';
+            return;
+        }
+
+        if ($cuti->status_level1 === 'Perubahan' || $cuti->status_level2 === 'Perubahan') {
+            $cuti->status_pengajuan = 'Perubahan';
+            return;
+        }
+
         $levelPengaju = (int) $cuti->level_pengaju;
 
         if ($levelPengaju === 1) {
-            $cuti->status_pengajuan = 'Disetujui';
+            $cuti->status_pengajuan = ($cuti->status_level1 === 'Disetujui') ? 'Disetujui' : 'Menunggu Persetujuan';
             return;
         }
 
@@ -525,6 +611,100 @@ class CutiController extends Controller
         return back()->with('success', 'Pengajuan cuti berhasil ditolak');
     }
 
+    public function postpone(Request $request, $id)
+    {
+        if (!Auth::user()->isCutiApprover()) {
+            abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
+        }
+
+        $request->validate([
+            'postponed_reason' => 'nullable|string|max:200',
+        ]);
+
+        $cuti = \App\Cuti::with('user')->findOrFail($id);
+        $level = $this->determineApprovalLevel($cuti, $request);
+
+        if ($level === 1) {
+            if ($cuti->status_level1 !== 'Menunggu') {
+                return back()->with('error', 'Status persetujuan Level 1 tidak dalam kondisi menunggu');
+            }
+            $cuti->status_level1 = 'Ditangguhkan';
+            $cuti->approved_level1_by = Auth::user()->id;
+            $cuti->approved_level1_at = now();
+        } else {
+            if ($cuti->status_level2 !== 'Menunggu') {
+                return back()->with('error', 'Status persetujuan Level 2 tidak dalam kondisi menunggu');
+            }
+            $cuti->status_level2 = 'Ditangguhkan';
+            $cuti->approved_level2_by = Auth::user()->id;
+            $cuti->approved_level2_at = now();
+        }
+
+        $cuti->rejected_reason = $request->postponed_reason ?: 'Ditangguhkan';
+        $cuti->status_pengajuan = 'Ditangguhkan';
+        $cuti->save();
+
+        if ($cuti->user && $cuti->user->active_telegram_chat_id) {
+            $telegram = app(TelegramService::class);
+            $reason = $cuti->rejected_reason ?: '-';
+            $telegram->sendMessage(
+                $cuti->user->active_telegram_chat_id,
+                'Pengajuan cuti kamu DITANGGUHKAN.\n' .
+                'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
+                'Alasan: ' . e($reason)
+            );
+        }
+
+        return back()->with('success', 'Pengajuan cuti berhasil ditangguhkan');
+    }
+
+    public function change(Request $request, $id)
+    {
+        if (!Auth::user()->isCutiApprover()) {
+            abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
+        }
+
+        $request->validate([
+            'changed_reason' => 'nullable|string|max:200',
+        ]);
+
+        $cuti = \App\Cuti::with('user')->findOrFail($id);
+        $level = $this->determineApprovalLevel($cuti, $request);
+
+        if ($level === 1) {
+            if ($cuti->status_level1 !== 'Menunggu') {
+                return back()->with('error', 'Status persetujuan Level 1 tidak dalam kondisi menunggu');
+            }
+            $cuti->status_level1 = 'Perubahan';
+            $cuti->approved_level1_by = Auth::user()->id;
+            $cuti->approved_level1_at = now();
+        } else {
+            if ($cuti->status_level2 !== 'Menunggu') {
+                return back()->with('error', 'Status persetujuan Level 2 tidak dalam kondisi menunggu');
+            }
+            $cuti->status_level2 = 'Perubahan';
+            $cuti->approved_level2_by = Auth::user()->id;
+            $cuti->approved_level2_at = now();
+        }
+
+        $cuti->rejected_reason = $request->changed_reason ?: 'Perubahan';
+        $cuti->status_pengajuan = 'Perubahan';
+        $cuti->save();
+
+        if ($cuti->user && $cuti->user->active_telegram_chat_id) {
+            $telegram = app(TelegramService::class);
+            $reason = $cuti->rejected_reason ?: '-';
+            $telegram->sendMessage(
+                $cuti->user->active_telegram_chat_id,
+                'Pengajuan cuti kamu membutuhkan PERUBAHAN.\n' .
+                'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
+                'Alasan: ' . e($reason)
+            );
+        }
+
+        return back()->with('success', 'Pengajuan cuti berhasil diajukan untuk perubahan');
+    }
+
     private function findCutiOrFail($id)
     {
         $cuti = \App\Cuti::with('user')->findOrFail($id);
@@ -540,15 +720,27 @@ class CutiController extends Controller
     {
         $cuti = \App\Cuti::with('user')->findOrFail($id);
 
-        if (
-            Auth::user()->role !== 'admin' &&
-            (int) $cuti->user_id !== (int) Auth::user()->id &&
-            !Auth::user()->isCutiApprover()
-        ) {
-            abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
+        if (Auth::user()->role === 'admin') {
+            return $cuti;
         }
 
-        return $cuti;
+        if ((int) $cuti->user_id === (int) Auth::user()->id) {
+            return $cuti;
+        }
+
+        if (Auth::user()->isCutiApproverLevel1()) {
+            return $cuti;
+        }
+
+        if (Auth::user()->isCutiApproverLevel2()) {
+            $managedUnit = \App\UnitBagian::where('jabatan_id', Auth::user()->jabatan_id)->first();
+            $unitId = $managedUnit ? $managedUnit->id : Auth::user()->unit_bagian_id;
+            if ($unitId && $cuti->user && (int) $cuti->user->unit_bagian_id === (int) $unitId) {
+                return $cuti;
+            }
+        }
+
+        abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
     }
 
     public function show($id)
@@ -560,29 +752,36 @@ class CutiController extends Controller
     public function pdf($id,$qr)
     {
         $cuti = $this->findCutiOrFail($id);
-        $tahunBulan = substr($cuti->user->nip, 8, 6);
+        $tahunBulan = $cuti->user && $cuti->user->nip && strlen($cuti->user->nip) >= 14 ? substr($cuti->user->nip, 8, 6) : '';
 
         // Pisahkan tahun dan bulan
-        $tahun = substr($tahunBulan, 0, 4);
-        $bulan = substr($tahunBulan, 4, 2);
+        $tahun = strlen($tahunBulan) === 6 ? substr($tahunBulan, 0, 4) : '';
+        $bulan = strlen($tahunBulan) === 6 ? substr($tahunBulan, 4, 2) : '';
 
-        $masaKerja = "";
+        $masaKerja = "-";
         $year = (int) date('Y');
         
-        if($bulan=='21'){
-            $p3kmasaKerja = $year-(int)$tahun-1;
-            $masaKerja = "{$p3kmasaKerja} tahun";
-        }else{
-            $tanggalMasuk = Carbon::createFromDate($tahun, $bulan, 1);
-            $sekarang = Carbon::now();
-            $diff = $tanggalMasuk->diff($sekarang);
-            
-            
-            if($diff->y>0 && $diff->m>0 ){
-                $masaKerja = "{$diff->y} tahun {$diff->y} bulan";
-            }else
-            {
-                $masaKerja = "{$diff->y} tahun";
+        if (is_numeric($tahun) && is_numeric($bulan)) {
+            if($bulan=='21'){
+                $p3kmasaKerja = $year-(int)$tahun-1;
+                $masaKerja = "{$p3kmasaKerja} tahun";
+            }else{
+                $mVal = (int) $bulan;
+                if ($mVal >= 1 && $mVal <= 12) {
+                    try {
+                        $tanggalMasuk = Carbon::createFromDate((int)$tahun, $mVal, 1);
+                        $sekarang = Carbon::now();
+                        $diff = $tanggalMasuk->diff($sekarang);
+                        
+                        if($diff->y>0 && $diff->m>0 ){
+                            $masaKerja = "{$diff->y} tahun {$diff->m} bulan";
+                        }else{
+                            $masaKerja = "{$diff->y} tahun";
+                        }
+                    } catch (\Exception $e) {
+                        $masaKerja = "-";
+                    }
+                }
             }
         }
         
@@ -621,12 +820,37 @@ class CutiController extends Controller
     public function edit($id)
     {
         $cuti = $this->findCutiOrFail($id);
+        if (Auth::user()->role !== 'admin' && $cuti->status_pengajuan === 'Disetujui') {
+            abort(403, 'Pengajuan cuti yang sudah disetujui tidak dapat diubah');
+        }
         return view('cuti.edit', compact('cuti'));
     }
 
     public function update(Request $request, $id)
     {
+        if ($request->has('tanggal_mulai') && $request->tanggal_mulai) {
+            try {
+                $request->merge([
+                    'tanggal_mulai' => \Carbon\Carbon::createFromFormat('d/m/Y', $request->tanggal_mulai)->format('Y-m-d')
+                ]);
+            } catch (\Exception $e) {
+                // Fallback
+            }
+        }
+        if ($request->has('tanggal_selesai') && $request->tanggal_selesai) {
+            try {
+                $request->merge([
+                    'tanggal_selesai' => \Carbon\Carbon::createFromFormat('d/m/Y', $request->tanggal_selesai)->format('Y-m-d')
+                ]);
+            } catch (\Exception $e) {
+                // Fallback
+            }
+        }
+
         $cuti = $this->findCutiOrFail($id);
+        if (Auth::user()->role !== 'admin' && $cuti->status_pengajuan === 'Disetujui') {
+            abort(403, 'Pengajuan cuti yang sudah disetujui tidak dapat diubah');
+        }
 
         $hasDokumenSakitCol = Schema::hasColumn('cuti', 'dokumen_sakit');
         $hasDokumenPpkCol = Schema::hasColumn('cuti', 'dokumen_ppk');
@@ -716,6 +940,24 @@ class CutiController extends Controller
         }
         if(Auth::user()->role == 'admin') {
             $cuti->status_pengajuan = $request->status_pengajuan;
+        } else {
+            if ($cuti->status_pengajuan === 'Ditangguhkan' || $cuti->status_pengajuan === 'Perubahan') {
+                $cuti->status_pengajuan = 'Menunggu Persetujuan';
+                
+                $levelPengaju = (int) $cuti->level_pengaju;
+                if ($levelPengaju === 3) {
+                    $cuti->status_level1 = 'Menunggu';
+                    $cuti->status_level2 = 'Menunggu';
+                } elseif ($levelPengaju === 2) {
+                    $cuti->status_level1 = 'Menunggu';
+                    $cuti->status_level2 = 'Tidak Perlu';
+                } else {
+                    $cuti->status_level1 = 'Tidak Perlu';
+                    $cuti->status_level2 = 'Tidak Perlu';
+                }
+                
+                $cuti->rejected_reason = null;
+            }
         }
         $cuti->save();
 
@@ -729,6 +971,9 @@ class CutiController extends Controller
     public function destroy($id)
     {
         $cuti = $this->findCutiOrFail($id);
+        if (Auth::user()->role !== 'admin' && $cuti->status_pengajuan === 'Disetujui') {
+            abort(403, 'Pengajuan cuti yang sudah disetujui tidak dapat dihapus');
+        }
         $cuti->delete();
 
         if(Auth::user()->role == 'admin') {

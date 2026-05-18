@@ -25,7 +25,7 @@
                             <tr>
                                 <td class="text-center">{{$index+1}}</td>
                                 <td>{{$u->nama}}</td>
-                                <td>{{$u->jabatan->nama}}</td>
+                                <td>{{ optional($u->jabatan)->nama ?? '' }}</td>
                                 <td class="text-center">
                                     <a href="{{route('unit-bagian.edit', $u->id)}}" class="btn btn-sm text-white" title="Edit" style="background-color:#6f42c1;width:38px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;">
                                         <i class="fa fa-pencil"></i>

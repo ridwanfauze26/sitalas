@@ -98,8 +98,17 @@ class HomeController extends Controller
         // var_dump($suratmasukperbulan);
         // $bulan=asort($bulan);
         // dd($bulan);
+        $year = (int) date('Y');
+        $userId = (int) Auth::user()->id;
+        $totalCuti = \App\Cuti::where('user_id', $userId)
+            ->where('jenis_cuti', 'cuti_tahunan')
+            ->where('tahun_cuti', $year)
+            ->where('status_pengajuan', 'Disetujui')
+            ->sum('lama_cuti');
+        $sisaCuti = 12 - $totalCuti;
+
         $user = \App\User::count();
-        return view('home', compact('klasifikasi', 'suratmasuk', 'suratkeluar', 'user', 'bulansuratmasuk', 'jumlahsuratmasukperbulan','bulansuratkeluar', 'jumlahsuratkeluarperbulan', 'disposisi', 'belumDisposisi', 'belumBernomor', 'cutiSedang'));
+        return view('home', compact('klasifikasi', 'suratmasuk', 'suratkeluar', 'user', 'bulansuratmasuk', 'jumlahsuratmasukperbulan','bulansuratkeluar', 'jumlahsuratkeluarperbulan', 'disposisi', 'belumDisposisi', 'belumBernomor', 'cutiSedang', 'sisaCuti'));
     }
 
     public function sedangCuti()

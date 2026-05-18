@@ -54,10 +54,11 @@ class UnitBagianController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:100',
+            'jabatan_id' => 'required'
         ]);
 
-        \App\UnitBagian::findOrFail($id);
-        \App\UnitBagian::where('id', $id)->update($request->except(['_token', '_method']));
+        $unitBagian = \App\UnitBagian::findOrFail($id);
+        $unitBagian->update($request->only(['nama', 'jabatan_id']));
         \App\User::where('unit_bagian_id', $id)->update(['unit_bagian_nama' => $request->nama]);
         return back()->with('success', 'Data unit bagian berhasil diubah');
     }

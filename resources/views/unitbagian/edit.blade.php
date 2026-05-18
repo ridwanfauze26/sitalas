@@ -24,12 +24,12 @@
                             </div>
                             <label class="control-label text-left col-md-3">Kepala Unit</label>
                             <div class="col-md-9">
-                                <select class="form-control @error('kepala') is-invalid @enderror" name="kepala" required>
+                                <select class="form-control @error('jabatan_id') is-invalid @enderror" name="jabatan_id" required>
                                     @foreach($jabatan as $kepala)
                                     <option value="{{$kepala->id}}" @if($unitBagian->jabatan_id == $kepala->id) selected="selected" @endif>{{$kepala->nama}}</option>
                                     @endforeach
                                 </select>
-                                @error('kepala')
+                                @error('jabatan_id')
                                 <div class="alert alert-danger mt-1">{{ $message }}</div>
                                 @enderror
                             </div>

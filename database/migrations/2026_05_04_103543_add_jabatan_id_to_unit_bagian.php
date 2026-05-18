@@ -10,15 +10,12 @@ return new class extends Migration
      * Run the migrations.
      */
 
-    //menambahkan kolom dan foreign key sebelumnya harus mengosongkan data di tabel unit_bagian
-    //kemudian mengubah tipe data id pada tabel jabatan 
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::table('unit_bagian', function (Blueprint $table) {
-             $table->foreignId('jabatan_id')
-                  ->constrained('jabatan')
-                  ->onDelete('cascade');
-        });
+        // No action needed – the column and foreign key already exist
     }
 
     /**
@@ -26,10 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('unit_bagian', function (Blueprint $table) {
-            $table->dropForeign(['jabatan_id']);
-
-            $table->dropColumn('jabatan_id');
-        });
+        // No action needed – do not drop existing column
     }
 };

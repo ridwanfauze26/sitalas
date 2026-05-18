@@ -107,7 +107,17 @@
                     </div>
                     @if($cuti->rejected_reason)
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Alasan Ditolak</label>
+                        <label class="col-sm-3 col-form-label">
+                            @if($cuti->status_pengajuan === 'Ditolak')
+                                Alasan Ditolak
+                            @elseif($cuti->status_pengajuan === 'Ditangguhkan')
+                                Alasan Ditangguhkan
+                            @elseif($cuti->status_pengajuan === 'Perubahan')
+                                Rincian Perubahan
+                            @else
+                                Catatan / Alasan
+                            @endif
+                        </label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" value="{{ $cuti->rejected_reason }}" readonly>
                         </div>

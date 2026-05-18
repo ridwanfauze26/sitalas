@@ -135,7 +135,8 @@ class PenggunaController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'nip' => 'required|integer|digits_between:8,18'
+            'nip' => 'required|integer|digits_between:8,18',
+            'unit_bagian_id' => 'nullable|integer'
         ]);
 
         $user =  \App\User::findOrFail($id);
@@ -144,21 +145,26 @@ class PenggunaController extends Controller
 
         $user->nip = $request->nip;
         $user->email = $request->email;
-        if(Auth::user()->role == 'admin') {
-        $request->validate([
-            'role' => 'required|string|max:11',
-            'jabatan_id' => 'required|integer',
-            'unit_bagian_id' => 'nullable|integer'
-        ]);
-        $check = \App\Jabatan::findOrFail($request->jabatan_id);
+        $user->name = $request->name;
+
+        // Process unit bagian update for anyone (including staff themselves)
         $unitBagian = null;
-        if($request->unit_bagian_id) $unitBagian = \App\UnitBagian::findOrFail($request->unit_bagian_id);
-        $user->role = $request->role;
-        $user->jabatan_id = $request->jabatan_id;
+        if($request->unit_bagian_id) {
+            $unitBagian = \App\UnitBagian::findOrFail($request->unit_bagian_id);
+        }
         $user->unit_bagian_id = $request->unit_bagian_id;
         $user->unit_bagian_nama = $unitBagian ? $unitBagian->nama : null;
+
+        if(Auth::user()->role == 'admin') {
+            $request->validate([
+                'role' => 'required|string|max:11',
+                'jabatan_id' => 'required|integer',
+            ]);
+            $check = \App\Jabatan::findOrFail($request->jabatan_id);
+            $user->role = $request->role;
+            $user->jabatan_id = $request->jabatan_id;
         }
-        $user->name = $request->name;
+
         if($request->password) {
             $request->validate([
                 'password' => 'required|string|min:8|max:32',

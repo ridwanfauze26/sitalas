@@ -10,6 +10,31 @@
                 </h4>
             </div>
             <div class="card-body">
+                @if(($cuti->status_pengajuan === 'Ditangguhkan' || $cuti->status_pengajuan === 'Perubahan') && $cuti->rejected_reason)
+                    @if($cuti->status_pengajuan === 'Ditangguhkan')
+                        <div class="alert alert-warning border-left-warning shadow-sm" role="alert" style="border-radius: 12px; border-left: 5px solid #fd7e14; background-color: #fff3cd; color: #856404; margin-bottom: 24px; padding: 15px 20px;">
+                            <h5 class="alert-heading font-weight-bold mb-2">
+                                <i class="fa fa-info-circle mr-2"></i> Pengajuan Ditangguhkan oleh Atasan
+                            </h5>
+                            <p class="mb-0" style="font-size: 13.5px; line-height: 1.5;">
+                                <strong>Catatan Penangguhan:</strong> "{{ $cuti->rejected_reason }}"
+                            </p>
+                            <hr style="border-top-color: #ffe8a1; margin: 10px 0;">
+                            <span style="font-size: 12px; opacity: 0.85;">Pengajuan Anda ditangguhkan oleh Atasan. Namun, jika Anda ingin menyesuaikan data dan mengajukannya ulang kembali, Anda tetap dapat mengedit data di bawah lalu klik tombol <strong>Kirim Kembali Pengajuan</strong>.</span>
+                        </div>
+                    @else
+                        <div class="alert alert-warning border-left-warning shadow-sm" role="alert" style="border-radius: 12px; border-left: 5px solid #6f42c1; background-color: #f3ebff; color: #4e2b8c; margin-bottom: 24px; padding: 15px 20px;">
+                            <h5 class="alert-heading font-weight-bold mb-2">
+                                <i class="fa fa-pencil mr-2"></i> Permintaan Perubahan Data Cuti
+                            </h5>
+                            <p class="mb-0" style="font-size: 13.5px; line-height: 1.5;">
+                                <strong>Catatan Perubahan:</strong> "{{ $cuti->rejected_reason }}"
+                            </p>
+                            <hr style="border-top-color: #d8c3f7; margin: 10px 0;">
+                            <span style="font-size: 12px; opacity: 0.85;">Silakan perbaiki data di bawah sesuai dengan catatan di atas, kemudian klik tombol <strong>Kirim Kembali Pengajuan</strong> untuk diajukan ulang.</span>
+                        </div>
+                    @endif
+                @endif
                 <form action="{{ Auth::user()->role == 'admin' ? route('cuti.admin.update', $cuti->id) : route('cuti.update', $cuti->id) }}" method="POST" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
@@ -80,13 +105,13 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Tanggal Mulai</label>
                             <div class="col-sm-9">
-                                <input type="date" class="form-control" name="tanggal_mulai" value="{{ $cuti->tanggal_mulai }}">
+                                <input type="text" class="form-control flatpickr" name="tanggal_mulai" value="{{ $cuti->tanggal_mulai ? \Carbon\Carbon::parse($cuti->tanggal_mulai)->format('d/m/Y') : '' }}" placeholder="dd/mm/yyyy">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Tanggal Selesai</label>
                             <div class="col-sm-9">
-                                <input type="date" class="form-control" name="tanggal_selesai" value="{{ $cuti->tanggal_selesai }}">
+                                <input type="text" class="form-control flatpickr" name="tanggal_selesai" value="{{ $cuti->tanggal_selesai ? \Carbon\Carbon::parse($cuti->tanggal_selesai)->format('d/m/Y') : '' }}" placeholder="dd/mm/yyyy">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -115,7 +140,13 @@
                         @endif
                         <div class="form-group row">
                             <div class="col-sm-9 offset-sm-3">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="submit" class="btn btn-primary">
+                                    @if($cuti->status_pengajuan === 'Ditangguhkan' || $cuti->status_pengajuan === 'Perubahan')
+                                        Kirim Kembali Pengajuan
+                                    @else
+                                        Simpan
+                                    @endif
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -171,6 +202,41 @@
             lamaCuti.addEventListener('input', refreshInfo);
             lamaCuti.addEventListener('change', refreshInfo);
         }
+        $(document).ready(function() {
+            if (typeof flatpickr !== 'undefined') {
+                flatpickr(".flatpickr", {
+                    locale: "id",
+                    dateFormat: "d/m/Y",
+                    allowInput: true,
+                    position: "above",
+                    onReady: function(selectedDates, dateStr, instance) {
+                        const footer = document.createElement("div");
+                        footer.className = "flatpickr-custom-footer";
+                        footer.innerHTML = `
+                            <div class="today-label">TODAY</div>
+                            <div class="divider">|</div>
+                            <div class="time-container">
+                                <div class="time-clock"></div>
+                                <div class="time-date"></div>
+                            </div>
+                        `;
+                        instance.calendarContainer.appendChild(footer);
+                        
+                        function updateTime() {
+                            const now = new Date();
+                            const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+                            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+                            const clockEl = footer.querySelector(".time-clock");
+                            const dateEl = footer.querySelector(".time-date");
+                            if (clockEl) clockEl.textContent = timeStr;
+                            if (dateEl) dateEl.textContent = dateStr;
+                        }
+                        updateTime();
+                        setInterval(updateTime, 1000);
+                    }
+                });
+            }
+        });
         refreshInfo();
     })();
 </script>
