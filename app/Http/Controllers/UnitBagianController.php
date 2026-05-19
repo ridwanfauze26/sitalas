@@ -18,7 +18,7 @@ class UnitBagianController extends Controller
     public function index()
     {
         $unitBagian = \App\UnitBagian::orderBy('id')->get();
-        $jabatan = \App\Jabatan::where('level','2')->get();
+        $jabatan = \App\Jabatan::where('level','2')->pluck('nama','id');
         return view('unitbagian.index', compact('unitBagian','jabatan'));
     }
 
@@ -46,7 +46,7 @@ class UnitBagianController extends Controller
     public function edit($id)
     {
         $unitBagian = \App\UnitBagian::findOrFail($id);
-        $jabatan = \App\Jabatan::where('level','2')->get();
+        $jabatan = \App\Jabatan::where('level','2')->pluck('nama','id');
         return view('unitbagian.edit', compact('unitBagian','jabatan'));
     }
 

@@ -971,9 +971,13 @@ class CutiController extends Controller
     public function destroy($id)
     {
         $cuti = $this->findCutiOrFail($id);
+        $cutitahunanbalance = CutiTahunanBalance::where('user_id',$cuti->user_id)
+                            ->where('tahun',$cuti->tahun_cuti)->first();
         if (Auth::user()->role !== 'admin' && $cuti->status_pengajuan === 'Disetujui') {
             abort(403, 'Pengajuan cuti yang sudah disetujui tidak dapat dihapus');
         }
+        $cutitahunanbalance->dipakai = (int)$cutitahunanbalance->dipakai-(int)$cuti->lama_cuti;
+        $cutitahunanbalance->save();
         $cuti->delete();
 
         if(Auth::user()->role == 'admin') {

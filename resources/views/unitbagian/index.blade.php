@@ -65,8 +65,8 @@
                                         <label>Kapala Unit</label>
                                         <select class="form-control @error('jabatan_id') is-invalid @enderror" name="jabatan_id" required>
                                             <option value="">== Silahkan Pilih ==</option>
-                                            @foreach($jabatan as $kepala)
-                                            <option value="{{$kepala->id}}">{{$kepala->nama}}</option>
+                                            @foreach($jabatan as $id => $nama)
+                                            <option value="{{$id}}">{{$nama}}</option>
                                             @endforeach
                                         </select>
                                         @error('jabatan_id')

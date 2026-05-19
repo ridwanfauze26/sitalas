@@ -25,8 +25,8 @@
                             <label class="control-label text-left col-md-3">Kepala Unit</label>
                             <div class="col-md-9">
                                 <select class="form-control @error('jabatan_id') is-invalid @enderror" name="jabatan_id" required>
-                                    @foreach($jabatan as $kepala)
-                                    <option value="{{$kepala->id}}" @if($unitBagian->jabatan_id == $kepala->id) selected="selected" @endif>{{$kepala->nama}}</option>
+                                    @foreach($jabatan as $id => $nama)
+                                    <option value="{{$id}}" @if($unitBagian->jabatan_id == $id) selected="selected" @endif>{{$nama}}</option>
                                     @endforeach
                                 </select>
                                 @error('jabatan_id')
