@@ -11,6 +11,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
+                                <th>Unit Bagian</th>
                                 <th>Jenis Cuti</th>
                                 <th>Tanggal Cuti</th>
                                 <th>Tanggal Selesai</th>
@@ -25,6 +26,7 @@
                             <tr>
                                 <td class="text-center">{{$index+1}}</td>
                                 <td>{{ optional($c->user)->name }}</td>
+                                <td>{{ optional($c->user->unitBagian)->nama }}</td>
                                 <td>{{$c->jenis_cuti}}</td>
                                 <td>{{ $c->tanggal_mulai ? \Carbon\Carbon::parse($c->tanggal_mulai)->format('d/m/Y') : '' }}</td>
                                 <td>{{ $c->tanggal_selesai ? \Carbon\Carbon::parse($c->tanggal_selesai)->format('d/m/Y') : '' }}</td>

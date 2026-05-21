@@ -19,15 +19,15 @@ class CutiController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(function($request, $next){
-            if(Gate::any(['admin','kepala','verifikator','pegawai'])) return $next($request);
+        $this->middleware(function ($request, $next) {
+            if (Gate::any(['admin', 'kepala', 'verifikator', 'pegawai'])) return $next($request);
             abort(403, 'Anda tidak memiliki hak akses untuk mengakses halaman ini');
         });
     }
 
     public function index()
     {
-        if(Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             return redirect()->route('cuti.admin.index');
         }
 
@@ -37,17 +37,17 @@ class CutiController extends Controller
 
     public function adminIndex()
     {
-        if(Auth::user()->role != 'admin') {
+        if (Auth::user()->role != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
-        
-        $cuti = \App\Cuti::with('user')->latest()->get();
+
+        $cuti = \App\Cuti::with('user.unitBagian')->latest()->get();
         return view('cuti.admin', compact('cuti'));
     }
 
     public function create()
     {
-        if(Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
@@ -72,10 +72,10 @@ class CutiController extends Controller
         $totalCuti = \App\Cuti::where('user_id', $userId)
             ->where('jenis_cuti', $jenisCuti)
             ->where('tahun_cuti', $year)
-            ->where('status_pengajuan','Disetujui')
+            ->where('status_pengajuan', 'Disetujui')
             ->sum('lama_cuti');
-        
-        
+
+
         // $n = CutiTahunanBalance::firstOrCreate(
         //     ['user_id' => $userId, 'tahun' => $year],
         //     ['jatah' => 12, 'dipakai' => 0]
@@ -90,7 +90,7 @@ class CutiController extends Controller
         // );
 
         // $sisaN = max(0, (int) $n->jatah - (int) $n->dipakai);
-        $sisaN = 12-$totalCuti;
+        $sisaN = 12 - $totalCuti;
         // $sisaN = max(0, (int) $n->jatah - (int) $n->dipakai);
         // $sisaN1Raw = max(0, (int) $n1->jatah - (int) $n1->dipakai);
         // $sisaN2Raw = max(0, (int) $n2->jatah - (int) $n2->dipakai);
@@ -153,7 +153,7 @@ class CutiController extends Controller
             }
         }
 
-        if(Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
@@ -296,8 +296,8 @@ class CutiController extends Controller
                     $telegram->sendMessage(
                         $u->active_telegram_chat_id,
                         'Pengajuan cuti baru dari ' . e(Auth::user()->name) . "\n" .
-                        'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
-                        'Status: Menunggu Persetujuan'
+                            'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
+                            'Status: Menunggu Persetujuan'
                     );
                 }
             }
@@ -312,21 +312,22 @@ class CutiController extends Controller
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
-        $query = \App\Cuti::with('user')->latest();
-        
+        $query = \App\Cuti::with('user.unitBagian')->latest();
+
         if (Auth::user()->role === 'admin') {
             $query->where(function ($q) {
                 $q->where('status_level1', 'Menunggu')
                     ->orWhere('status_level2', 'Menunggu');
             });
         } elseif (Auth::user()->isCutiApproverLevel1()) {
-            $query->where('status_level1', 'Menunggu');
+            $query->where('status_level1', 'Menunggu')
+                ->where('status_level2', 'Disetujui');
         } elseif (Auth::user()->isCutiApproverLevel2()) {
             $query->where('status_level2', 'Menunggu');
-            
+
             $managedUnit = \App\UnitBagian::where('jabatan_id', Auth::user()->jabatan_id)->first();
             $unitId = $managedUnit ? $managedUnit->id : Auth::user()->unit_bagian_id;
-            
+
             if ($unitId) {
                 $query->whereHas('user', function ($q) use ($unitId) {
                     $q->where('unit_bagian_id', $unitId);
@@ -341,19 +342,22 @@ class CutiController extends Controller
         $cuti = $query->get();
 
         // Query untuk Riwayat Cuti (Disetujui)
-        $historyQuery = \App\Cuti::with('user')->where('status_pengajuan', 'Disetujui')->latest();
+        $historyQuery = \App\Cuti::with('user')->latest();
 
         if (Auth::user()->role === 'admin') {
             // Admin sees all
+            $historyQuery->where('status_pengajuan','Disetujui');
         } elseif (Auth::user()->isCutiApproverLevel1()) {
             // Level 1 sees all approved leaves
+             $historyQuery->where('status_level1','Disetujui');
         } elseif (Auth::user()->isCutiApproverLevel2()) {
             // Level 2 sees only their unit's approved leaves
             $managedUnit = \App\UnitBagian::where('jabatan_id', Auth::user()->jabatan_id)->first();
             $unitId = $managedUnit ? $managedUnit->id : Auth::user()->unit_bagian_id;
-            
+
             if ($unitId) {
-                $historyQuery->whereHas('user', function ($q) use ($unitId) {
+                $historyQuery->where('status_level2','Disetujui')
+                ->whereHas('user', function ($q) use ($unitId) {
                     $q->where('unit_bagian_id', $unitId);
                 });
             } else {
@@ -389,7 +393,7 @@ class CutiController extends Controller
         if (Auth::user()->isCutiApproverLevel2()) {
             $managedUnit = \App\UnitBagian::where('jabatan_id', Auth::user()->jabatan_id)->first();
             $unitId = $managedUnit ? $managedUnit->id : Auth::user()->unit_bagian_id;
-            
+
             if (!$unitId || !$cuti->user || (int) $cuti->user->unit_bagian_id !== (int) $unitId) {
                 abort(403, 'Anda tidak memiliki akses untuk memverifikasi pengajuan dari unit bagian lain');
             }
@@ -499,9 +503,9 @@ class CutiController extends Controller
         //     $remaining -= $potongN2;
         // }
 
-        if((int)$n->dipakai==0){
+        if ((int)$n->dipakai == 0) {
             $cuti->potong_n = (int) $n->jatah - (int) $cuti->lama_cuti;
-        }else{
+        } else {
             $cuti->potong_n = (int) $n->jatah - ((int) $cuti->lama_cuti + (int)$n->dipakai);
         }
 
@@ -516,9 +520,9 @@ class CutiController extends Controller
             $n2->save();
         }
 
-        
 
-        
+
+
         $cuti->potong_n1 = $potongN1;
         $cuti->potong_n2 = $potongN2;
     }
@@ -557,7 +561,7 @@ class CutiController extends Controller
             $telegram->sendMessage(
                 $cuti->user->active_telegram_chat_id,
                 'Pengajuan cuti kamu sudah DISSETUJUI.\n' .
-                'Jenis: ' . e((string) $cuti->jenis_cuti)
+                    'Jenis: ' . e((string) $cuti->jenis_cuti)
             );
         }
 
@@ -603,8 +607,8 @@ class CutiController extends Controller
             $telegram->sendMessage(
                 $cuti->user->active_telegram_chat_id,
                 'Pengajuan cuti kamu DITOLAK.\n' .
-                'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
-                'Alasan: ' . e($reason)
+                    'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
+                    'Alasan: ' . e($reason)
             );
         }
 
@@ -650,8 +654,8 @@ class CutiController extends Controller
             $telegram->sendMessage(
                 $cuti->user->active_telegram_chat_id,
                 'Pengajuan cuti kamu DITANGGUHKAN.\n' .
-                'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
-                'Alasan: ' . e($reason)
+                    'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
+                    'Alasan: ' . e($reason)
             );
         }
 
@@ -697,8 +701,8 @@ class CutiController extends Controller
             $telegram->sendMessage(
                 $cuti->user->active_telegram_chat_id,
                 'Pengajuan cuti kamu membutuhkan PERUBAHAN.\n' .
-                'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
-                'Alasan: ' . e($reason)
+                    'Jenis: ' . e((string) $cuti->jenis_cuti) . "\n" .
+                    'Alasan: ' . e($reason)
             );
         }
 
@@ -709,7 +713,7 @@ class CutiController extends Controller
     {
         $cuti = \App\Cuti::with('user')->findOrFail($id);
 
-        if(Auth::user()->role != 'admin' && (int) $cuti->user_id !== (int) Auth::user()->id) {
+        if (Auth::user()->role != 'admin' && (int) $cuti->user_id !== (int) Auth::user()->id) {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
@@ -749,7 +753,7 @@ class CutiController extends Controller
         return view('cuti.show', compact('cuti'));
     }
 
-    public function pdf($id,$qr)
+    public function pdf($id, $qr)
     {
         $cuti = $this->findCutiOrFail($id);
         $tahunBulan = $cuti->user && $cuti->user->nip && strlen($cuti->user->nip) >= 14 ? substr($cuti->user->nip, 8, 6) : '';
@@ -760,22 +764,22 @@ class CutiController extends Controller
 
         $masaKerja = "-";
         $year = (int) date('Y');
-        
+
         if (is_numeric($tahun) && is_numeric($bulan)) {
-            if($bulan=='21'){
-                $p3kmasaKerja = $year-(int)$tahun-1;
+            if ($bulan == '21') {
+                $p3kmasaKerja = $year - (int)$tahun - 1;
                 $masaKerja = "{$p3kmasaKerja} tahun";
-            }else{
+            } else {
                 $mVal = (int) $bulan;
                 if ($mVal >= 1 && $mVal <= 12) {
                     try {
                         $tanggalMasuk = Carbon::createFromDate((int)$tahun, $mVal, 1);
                         $sekarang = Carbon::now();
                         $diff = $tanggalMasuk->diff($sekarang);
-                        
-                        if($diff->y>0 && $diff->m>0 ){
+
+                        if ($diff->y > 0 && $diff->m > 0) {
                             $masaKerja = "{$diff->y} tahun {$diff->m} bulan";
-                        }else{
+                        } else {
                             $masaKerja = "{$diff->y} tahun";
                         }
                     } catch (\Exception $e) {
@@ -784,7 +788,7 @@ class CutiController extends Controller
                 }
             }
         }
-        
+
 
         if ($cuti->status_pengajuan !== 'Disetujui') {
             abort(403, 'PDF hanya tersedia jika cuti sudah disetujui');
@@ -795,7 +799,7 @@ class CutiController extends Controller
         $approverLevel1 = $cuti->approved_level1_by ? User::find($cuti->approved_level1_by) : null;
         $approverLevel2 = $cuti->approved_level2_by ? User::find($cuti->approved_level2_by) : null;
 
-        $pdfUrl = route('cuti.pdf', ['id'=>$cuti->id, 'qr'=>$qr]);
+        $pdfUrl = route('cuti.pdf', ['id' => $cuti->id, 'qr' => $qr]);
 
         $qrDataUri = null;
         if (class_exists(QrCode::class) && class_exists(PngWriter::class)) {
@@ -873,7 +877,7 @@ class CutiController extends Controller
             $rules['dokumen_ppk'] = 'nullable|file|mimes:pdf|max:2048';
         }
 
-        if(Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             $rules['status_pengajuan'] = 'required|string|max:50';
         }
 
@@ -938,12 +942,12 @@ class CutiController extends Controller
             }
             $cuti->dokumen_ppk = $request->file('dokumen_ppk')->store('dokumen_cuti', 'public');
         }
-        if(Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             $cuti->status_pengajuan = $request->status_pengajuan;
         } else {
             if ($cuti->status_pengajuan === 'Ditangguhkan' || $cuti->status_pengajuan === 'Perubahan') {
                 $cuti->status_pengajuan = 'Menunggu Persetujuan';
-                
+
                 $levelPengaju = (int) $cuti->level_pengaju;
                 if ($levelPengaju === 3) {
                     $cuti->status_level1 = 'Menunggu';
@@ -955,13 +959,13 @@ class CutiController extends Controller
                     $cuti->status_level1 = 'Tidak Perlu';
                     $cuti->status_level2 = 'Tidak Perlu';
                 }
-                
+
                 $cuti->rejected_reason = null;
             }
         }
         $cuti->save();
 
-        if(Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             return redirect()->route('cuti.admin.index')->with('success', 'Data cuti berhasil diperbarui');
         }
 
@@ -971,16 +975,18 @@ class CutiController extends Controller
     public function destroy($id)
     {
         $cuti = $this->findCutiOrFail($id);
-        $cutitahunanbalance = CutiTahunanBalance::where('user_id',$cuti->user_id)
-                            ->where('tahun',$cuti->tahun_cuti)->first();
+        $cutitahunanbalance = CutiTahunanBalance::where('user_id', $cuti->user_id)
+            ->where('tahun', $cuti->tahun_cuti)->first();
         if (Auth::user()->role !== 'admin' && $cuti->status_pengajuan === 'Disetujui') {
             abort(403, 'Pengajuan cuti yang sudah disetujui tidak dapat dihapus');
         }
-        $cutitahunanbalance->dipakai = (int)$cutitahunanbalance->dipakai-(int)$cuti->lama_cuti;
-        $cutitahunanbalance->save();
+        if ($cuti->jenis_cuti === 'cuti_tahunan') {
+            $cutitahunanbalance->dipakai = (int)$cutitahunanbalance->dipakai - (int)$cuti->lama_cuti;
+            $cutitahunanbalance->save();
+        }
         $cuti->delete();
 
-        if(Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             return redirect()->route('cuti.admin.index')->with('success', 'Data cuti berhasil dihapus');
         }
 
@@ -989,7 +995,7 @@ class CutiController extends Controller
 
     public function adminShow($id)
     {
-        if(Auth::user()->role != 'admin') {
+        if (Auth::user()->role != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
         return $this->show($id);
@@ -997,7 +1003,7 @@ class CutiController extends Controller
 
     public function adminEdit($id)
     {
-        if(Auth::user()->role != 'admin') {
+        if (Auth::user()->role != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
         return $this->edit($id);
@@ -1005,7 +1011,7 @@ class CutiController extends Controller
 
     public function adminUpdate(Request $request, $id)
     {
-        if(Auth::user()->role != 'admin') {
+        if (Auth::user()->role != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
         return $this->update($request, $id);
@@ -1013,7 +1019,7 @@ class CutiController extends Controller
 
     public function adminDestroy($id)
     {
-        if(Auth::user()->role != 'admin') {
+        if (Auth::user()->role != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
         return $this->destroy($id);

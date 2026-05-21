@@ -11,12 +11,16 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
+                                <th>Unit Bagian</th>
                                 <th>Jenis Cuti</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
+                                <th>Lama Cuti</th>
+                                @if(Auth::user()->role == 'admin')
                                 <th>Status L1</th>
                                 <th>Status L2</th>
                                 <th>Status Final</th>
+                                @endif
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -25,9 +29,12 @@
                             <tr>
                                 <td class="text-center">{{ $index+1 }}</td>
                                 <td>{{ optional($c->user)->name }}</td>
+                                <td>{{ optional($c->user->unitBagian)->nama }}</td>
                                 <td>{{ $c->jenis_cuti }}</td>
                                 <td>{{ $c->tanggal_mulai ? \Carbon\Carbon::parse($c->tanggal_mulai)->format('d/m/Y') : '' }}</td>
                                 <td>{{ $c->tanggal_selesai ? \Carbon\Carbon::parse($c->tanggal_selesai)->format('d/m/Y') : '' }}</td>
+                                <td>{{ $c->lama_cuti }}</td>
+                                @if(Auth::user()->role == 'admin')
                                  <td class="text-center">
                                      @if($c->status_level1 == 'Disetujui')
                                          <span class="badge badge-success px-2 py-1" style="font-size: 11px; border-radius: 12px;">Disetujui</span>
@@ -69,6 +76,7 @@
                                          <span class="badge badge-secondary px-2 py-1" style="font-size: 11px; border-radius: 12px;">Menunggu</span>
                                      @endif
                                  </td>
+                                 @endif
                                 <td class="text-center">
                                     @if(Auth::user()->role == 'admin')
                                         <select class="form-control form-control-sm d-inline-block" style="width:120px;height:30px;padding:0 6px;">
@@ -146,6 +154,7 @@
                                 <th class="text-center" style="width: 50px;">No</th>
                                 <th>Nama</th>
                                 <th>Jenis Cuti</th>
+                                <th>Unit Bagian</th>
                                 <th class="text-center">Tanggal Mulai</th>
                                 <th class="text-center">Tanggal Selesai</th>
                                 <th class="text-center">Lama Cuti</th>
@@ -159,6 +168,7 @@
                             <tr>
                                 <td class="text-center">{{ $index+1 }}</td>
                                 <td><strong>{{ optional($c->user)->name }}</strong></td>
+                                <td><strong>{{ optional($c->user->unitBagian)->nama }}</strong></td>
                                 <td>{{ ucwords(str_replace('_', ' ', $c->jenis_cuti)) }}</td>
                                 <td class="text-center">{{ $c->tanggal_mulai ? \Carbon\Carbon::parse($c->tanggal_mulai)->format('d/m/Y') : '' }}</td>
                                 <td class="text-center">{{ $c->tanggal_selesai ? \Carbon\Carbon::parse($c->tanggal_selesai)->format('d/m/Y') : '' }}</td>

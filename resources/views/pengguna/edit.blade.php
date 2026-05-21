@@ -7,14 +7,20 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            @php $readonly = 'readonly' @endphp
+            @php 
+                $readonly = 'readonly';
+                $disable = 'disabled';
+            @endphp
             @if(Auth::user()->role == 'admin')
             <div class="card-header">
                 <h4 class="m-b-0 text-white">
                     <a class="btn btn-sm btn-danger" href="{{route('pengguna.index')}}" role="button">Kembali ke Daftar Pengguna</a>
                 </h4>
             </div>
-            @php $readonly = '' @endphp
+            @php 
+                $readonly = '';
+                $disable = '';
+            @endphp
             @endif
             <div class="card-body">
                 <form action="{{route('pengguna.update', $pengguna->id)}}" method="POST">
@@ -54,7 +60,7 @@
                         <div class="form-group row">
                             <label class="control-label text-left col-md-3">Unit Bagian</label>
                             <div class="col-md-9">
-                                <select class="form-control custom-select select2" name="unit_bagian_id">
+                                <select class="form-control custom-select select2" name="unit_bagian_id" {{$disable}}>
                                     <option value="">-</option>
                                     @foreach($unitBagian as $u)
                                     <option value="{{$u->id}}" @if($pengguna->unit_bagian_id == $u->id) selected="selected" @endif>{{$u->nama}}</option>
@@ -81,7 +87,7 @@
                         <div class="form-group row">
                             <label class="control-label text-left col-md-3">Alamat E-mail</label>
                             <div class="col-md-9">
-                            <input type="email" value="{{ $pengguna->email }}" name="email" class="form-control @error('email') is-invalid @enderror" {{$readonly}}>
+                            <input type="email" value="{{ $pengguna->email }}" name="email" class="form-control @error('email') is-invalid @enderror">
                             @error('email')
                                 <div class="alert alert-danger mt-1">{{ $message }}</div>
                             @enderror
