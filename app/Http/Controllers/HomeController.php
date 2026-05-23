@@ -65,7 +65,7 @@ class HomeController extends Controller
 
         if (Auth::user()->role == 'kepala') {
             $persetujuanCuti = $persetujuanCuti->where('status_level1', 'Menunggu')
-                        ->where('status_level2','Disetujui')->count();
+                        ->whereIn('status_level2',['Disetujui','Tidak Perlu'])->count();
         } else if (Auth::user()->role == 'verifikator') {
             $persetujuanCuti = $persetujuanCuti->whereHas('user',function ($q){
                             $q->where('unit_bagian_id',Auth::user()->unit_bagian_id);

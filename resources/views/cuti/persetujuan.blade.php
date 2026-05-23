@@ -153,8 +153,8 @@
                             <tr>
                                 <th class="text-center" style="width: 50px;">No</th>
                                 <th>Nama</th>
-                                <th>Jenis Cuti</th>
                                 <th>Unit Bagian</th>
+                                <th>Jenis Cuti</th>
                                 <th class="text-center">Tanggal Mulai</th>
                                 <th class="text-center">Tanggal Selesai</th>
                                 <th class="text-center">Lama Cuti</th>

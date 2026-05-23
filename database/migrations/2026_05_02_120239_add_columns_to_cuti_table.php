@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('jabatan',100)->nullable()->after('nama');
             $table->string('unit_kerja',50)->nullable()->after('jabatan');
             $table->string('masa_kerja',30)->nullable()->after('unit_kerja');
+            $table->enum('satuan_waktu',['Hari','Bulan','Tahun'])->nullable()->after('lama_cuti');
             $table->string('approved_level1_by',100)->nullable()->change();
             $table->string('approved_level2_by',100)->nullable()->change();
         });

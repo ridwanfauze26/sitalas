@@ -40,12 +40,14 @@
           <span class="menu-title">Surat Keluar</span>
         </a>
       </li>
+      @if(Auth::user()->role != 'kepala')
       <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('cuti.*') ? 'active' : '' }}" href="{{ Auth::user()->role == 'admin' ? route('cuti.admin.index') : route('cuti.index') }}">
           <i class="mdi mdi-calendar-check menu-icon"></i>
           <span class="menu-title">Cuti</span>
         </a>
       </li>
+      @endif
       @if(Auth::user()->role == 'admin' || Auth::user()->isCutiApprover())
       <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('cuti.persetujuan.*') ? 'active' : '' }}" href="{{ route('cuti.persetujuan.index') }}">

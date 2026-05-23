@@ -321,7 +321,7 @@ class CutiController extends Controller
             });
         } elseif (Auth::user()->isCutiApproverLevel1()) {
             $query->where('status_level1', 'Menunggu')
-                ->where('status_level2', 'Disetujui');
+                ->whereIn('status_level2', ['Disetujui','Tidak Perlu']);
         } elseif (Auth::user()->isCutiApproverLevel2()) {
             $query->where('status_level2', 'Menunggu');
 

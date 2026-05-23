@@ -50,7 +50,7 @@
                 <h5 class="mr-2 mb-0">{{ $dashboardCount['belumBernomor'] }}</h5>
               </div>
             </div>
-            @if(Auth::user()->role != 'admin')
+            @if(Auth::user()->role == 'verifikator')
             <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
               <a href="{{ route('cuti.index') }}"><i class="mdi mdi-calendar-text mr-3 icon-lg text-info"></i></a>
               <div class="d-flex flex-column justify-content-around">

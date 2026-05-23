@@ -179,7 +179,7 @@
             <td colspan="2">
                 <table style="width:100%;" class="no-border">
                     <tr>
-                        <td class="no-border" style="width:45%;">Selama : {{ $cuti->lama_cuti }} {{ ($cuti->jenis_cuti === 'cuti_luar_tanggungan' || $cuti->jenis_cuti === 'cuti_besar') ? '(bulan)' : '(hari)' }}</td>
+                        <td class="no-border" style="width:45%;">Selama : {{ $cuti->lama_cuti }} {{ ($cuti->jenis_cuti === 'cuti_luar_tanggungan' || $cuti->jenis_cuti === 'cuti_besar') ? 'Bulan' : 'Hari' }}</td>
                         <td class="no-border" style="width:25%;">Mulai Tanggal : {{ $cuti->tanggal_mulai ? \Carbon\Carbon::parse($cuti->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
                         <td class="no-border" style="width:30%;">s/d : {{ $cuti->tanggal_selesai ? \Carbon\Carbon::parse($cuti->tanggal_selesai)->format('d/m/Y') : '-' }}</td>
                     </tr>
@@ -222,8 +222,16 @@
                                 </tr>
                                 <tr>
                                     <td>N</td>
-                                    <td>{{ $cuti->potong_n }}</td>
-                                    <td>{{ $cuti->potong_n >= 0 ? 'Dipakai ' . 12-$cuti->potong_n . ' hari (Tahun ' . $tahunCuti . ')' : ($cuti->jenis_cuti === 'cuti_tahunan' ? 'Tahun ' . $tahunCuti : '') }}</td>
+                                    <td>
+                                        @if($cuti->jenis_cuti == 'cuti_tahunan')
+                                        {{ $cuti->potong_n }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($cuti->jenis_cuti == 'cuti_tahunan')
+                                        {{ $cuti->potong_n >= 0 ? 'Dipakai ' . 12-$cuti->potong_n . ' hari (Tahun ' . $tahunCuti . ')' : ($cuti->jenis_cuti === 'cuti_tahunan' ? 'Tahun ' . $tahunCuti : '') }}
+                                        @endif
+                                    </td>
                                 </tr>
                             </table>
                         </td>
@@ -287,8 +295,8 @@
                                 @endif
                             </div>
                             </div>
-                            <div class="approve-name">{{ optional($approverLevel2)->name }}</div>
-                            <div>NIP {{ optional($approverLevel2)->nip }}</div>
+                            <div class="approve-name">{{ $cuti->user->jabatan->level==2?optional($approverLevel1)->name:optional($approverLevel2)->name }}</div>
+                            <div>NIP {{ $cuti->user->jabatan->level==2?optional($approverLevel1)->nip:optional($approverLevel2)->nip }}</div>
                         </td>
                         <td style="height:85px;"></td>
                         <td style="height:85px;"></td>
