@@ -39,7 +39,7 @@
                             <div class="col-md-9">
                                 <select class="form-control custom-select select2" name="jabatan_id" required>
                                     @foreach($jabatan as $k)
-                                    <option value="{{$k->id}}">{{$k->nama}}</option>
+                                    <option value="{{$k->id}}">{{$k->level}} - {{$k->nama}}</option>
                                     @endforeach
                                 </select>
                             </div>

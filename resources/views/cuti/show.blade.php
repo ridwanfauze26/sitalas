@@ -1,13 +1,15 @@
 @extends('layouts.app')
-@section('judul', Auth::user()->role == 'admin' ? 'Detail Cuti' : 'HALAMAN USER')
+@section('judul', 'DETAIL CUTI')
 @section('content')
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
                 <h4 class="m-b-0 text-white">
-                    <a class="btn btn-sm btn-danger" href="{{ Auth::user()->role == 'admin' ? route('cuti.admin.index') : route('cuti.index') }}" role="button">Kembali</a>
-                    @if($cuti->status_pengajuan === 'Disetujui')
+
+                    <a class="btn btn-sm btn-danger" href="{{ (Auth::user()->role == 'admin' ? route('cuti.admin.index') : Auth::user()->role == 'kepala' ||  Auth::user()->id != $cuti->user_id) ? route('cuti.persetujuan.index') : route('cuti.index') }}" role="button">Kembali</a>
+
+                    @if($cuti->status_pengajuan === 'Disetujui' && Auth::user()->role != 'kepala' && Auth::user()->id == $cuti->user_id)
                         <a class="btn btn-sm btn-success" href="{{ route('cuti.pdf', ['id'=>$cuti->id, 'qr'=>0]) }}" target="_blank" rel="noopener" role="button" style="margin-left:8px;">Cetak PDF</a>
                         <a class="btn btn-sm btn-primary" href="{{ route('cuti.pdf', ['id'=>$cuti->id, 'qr'=>1]) }}" target="_blank" rel="noopener" role="button" style="margin-left:8px;">Cetak PDF QRCode</a>
                     @endif
@@ -40,14 +42,9 @@
                         </div>
                     </div>
                     @if($cuti->jenis_cuti === 'cuti_tahunan')
+                    
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Lama Cuti (Hari Kerja)</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" value="{{ $cuti->lama_cuti_hari_kerja }}" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Potong Saldo</label>
+                        <label class="col-sm-3 col-form-label">Sisa Cuti</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" value="N: {{ (int) $cuti->potong_n }} | N-1: {{ (int) $cuti->potong_n1 }} | N-2: {{ (int) $cuti->potong_n2 }}" readonly>
                         </div>

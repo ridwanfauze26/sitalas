@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DataTables;
 use DB;
+use Illuminate\Support\Facades\Http;
 
 
 class HomeController extends Controller
@@ -62,14 +63,17 @@ class HomeController extends Controller
         $belumBernomor = \App\SuratKeluar::whereNULL('nomor_surat')->count();
         $jumlahPegawai = \App\User::whereIn('role', ['kepala', 'verifikator', 'pegawai'])->count();
         $persetujuanCuti = \App\Cuti::with('user')->where('status_pengajuan', 'Menunggu Persetujuan');
+        
+        // $response = Http::get($url);
+        // $tempCoolRoom = $response->successful() ? $response->json()['suhu']: 'Gagal mengambil data';
 
         if (Auth::user()->role == 'kepala') {
             $persetujuanCuti = $persetujuanCuti->where('status_level1', 'Menunggu')
-                        ->whereIn('status_level2',['Disetujui','Tidak Perlu'])->count();
+                ->whereIn('status_level2', ['Disetujui', 'Tidak Perlu'])->count();
         } else if (Auth::user()->role == 'verifikator') {
-            $persetujuanCuti = $persetujuanCuti->whereHas('user',function ($q){
-                            $q->where('unit_bagian_id',Auth::user()->unit_bagian_id);
-                        })->where('status_level2', 'Menunggu')->count();
+            $persetujuanCuti = $persetujuanCuti->whereHas('user', function ($q) {
+                $q->where('unit_bagian_id', Auth::user()->unit_bagian_id);
+            })->where('status_level2', 'Menunggu')->count();
         } else {
             $persetujuanCuti = $persetujuanCuti->count();
         }
@@ -294,5 +298,24 @@ class HomeController extends Controller
                 // return response()->json($arr);
                 break;
         }
+    }
+    public function getSuhu()
+    {
+        $url = 'https://thermoveta.bpmsph.org/controllers/temperature/get_latest_temperature.php';
+        $response = Http::get($url);
+
+        if ($response->successful()) {
+
+            $data = $response->json();
+
+            return response()->json([
+                'suhu' => $data['suhu'],
+                'waktu' => $data['waktu']
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Gagal mengambil data'
+        ], 500);
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\SOPController;
 use App\Http\Controllers\FormulirController;
 use App\Http\Controllers\SKController;
 use App\Http\Controllers\SuratKeputusanController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -91,6 +92,7 @@ Route::get('/disposisi/getDisposisi', 'HomeController@getDisposisi')->name('get_
 Route::get('/disposisi', 'HomeController@disposisi')->name('disposisi');
 Route::post('/respon/{id}', 'HomeController@respon')->name('respon');
 Route::get('/tracking-disposisi/{id}/user/{user}', 'HomeController@tracking');
+Route::get('/api/suhu', [HomeController::class, 'getSuhu']);
 
 // Kelola Data SOP
 Route::get('/sop/data', [SOPController::class, 'getData'])->name('sop.data');

@@ -30,7 +30,9 @@ class CutiController extends Controller
         if (Auth::user()->role == 'admin') {
             return redirect()->route('cuti.admin.index');
         }
-
+        if(Auth::user()->role == 'kepala'){
+             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
+        }
         $cuti = \App\Cuti::where('user_id', Auth::user()->id)->latest()->get();
         return view('cuti.index', compact('cuti'));
     }
@@ -308,7 +310,7 @@ class CutiController extends Controller
 
     public function persetujuanIndex()
     {
-        if (!Auth::user()->isCutiApprover()) {
+        if (Auth::user()->role =='pegawai') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
@@ -980,7 +982,8 @@ class CutiController extends Controller
         if (Auth::user()->role !== 'admin' && $cuti->status_pengajuan === 'Disetujui') {
             abort(403, 'Pengajuan cuti yang sudah disetujui tidak dapat dihapus');
         }
-        if ($cuti->jenis_cuti === 'cuti_tahunan') {
+
+        if ($cuti->jenis_cuti === 'cuti_tahunan' && isset($cutitahunanbalance->dipakai)) {
             $cutitahunanbalance->dipakai = (int)$cutitahunanbalance->dipakai - (int)$cuti->lama_cuti;
             $cutitahunanbalance->save();
         }

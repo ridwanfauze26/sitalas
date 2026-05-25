@@ -84,7 +84,7 @@
 
 @if(Auth::user()->role == 'admin' || Auth::user()->role == 'kepala' || (int) Auth::user()->cuti_level === 1 || (int) Auth::user()->cuti_level === 2)
 <div class="row">
-  <div class="col-12 col-md-9 col-lg-9 grid-margin stretch-card mx-auto">
+  <div class="col-12 col-md-12 col-lg-12 grid-margin stretch-card mx-auto">
     <div class="card">
       <div class="card-body dashboard-tabs p-0">
         <div class="tab-content py-0 px-0">
@@ -115,6 +115,14 @@
                 <h5 class="mr-2 mb-0">{{ $dashboardCount['persetujuanCuti']}}</h5>
               </div>
             </div>
+            <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+              <i class="mdi mdi-thermometer icon-lg mr-3" id="thermo"></i>
+              <div class="d-flex flex-column justify-content-around">
+                <small class="mb-1 text-muted">Suhu Cooling Room</small>
+                <h5 class="mr-2 mb-0" id="suhu">0 <i class="mdi mdi-temperature-celsius"></i></h5>
+                <span id="waktu" style="font-size:xx-small;margin: 1px;" class="mb-1 text-muted"></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -143,65 +151,6 @@
     </div>
   </div>
 </div>
-<script>
-  function barChart2D(id, label, bulansuratmasuk, jumlahsuratmasukperbulan, bgcolor, bordercolor, max) {
-    var ctx = document.getElementById(id).getContext("2d");
-    window.myBar = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: bulansuratmasuk,
-        datasets: [{
-          label: label,
-          backgroundColor: bgcolor,
-          data: jumlahsuratmasukperbulan
-        }]
-      },
-      options: {
-        elements: {
-          rectangle: {
-            borderWidth: 1,
-            borderColor: bordercolor,
-            borderSkipped: 'bottom'
-          }
-        },
-        responsive: true,
-        title: {
-          display: true,
-          text: 'Tahun {{date("Y")}}'
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              min: 0,
-              max: max,
-              beginAtZero: true,
-              callback: function(value, index, values) {
-                if (Math.floor(value) === value) {
-                  return value;
-                }
-              }
-            }
-          }],
-          xAxes: [{
-            gridLines: {
-              display: false
-            },
-            // barPercentage: 0.5
-          }]
-        }
-      }
-    });
-  };
-  window.onload = function() {
-    let data = @json($jumlahsuratmasukperbulan).concat(@json($jumlahsuratkeluarperbulan));
-    let max = Math.max(...data);
-    if (max % 100 != 0) {
-      max = max - max % 100 + 100;
-    }
-    barChart2D('suratmasuk', 'Surat Masuk', @json($bulansuratmasuk), @json($jumlahsuratmasukperbulan), 'rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)', max);
-    barChart2D('suratkeluar', 'Surat Keluar', @json($bulansuratkeluar), @json($jumlahsuratkeluarperbulan), 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)', max);
-  };
-</script>
 @else
 
 <div class="row">
@@ -269,5 +218,139 @@
     </div>
   </div>
 </div>
+@if(Auth::user()->unit_bagian_id == 2)
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body dashboard-tabs p-0">
+        <div class="tab-content py-0 px-0">
+          <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+            <i class="mdi mdi-thermometer icon-lg mr-3" id="thermo"></i>
+            <div class="d-flex flex-column justify-content-around">
+              <small class="mb-1 text-muted">Suhu Cooling Room</small>
+              <h5 class="mr-2 mb-0" id="suhu">0 <i class="mdi mdi-temperature-celsius"></i></h5>
+              <span id="waktu" style="font-size:xx-small;margin: 1px;" class="mb-1 text-muted"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 @endif
+@endif
+<script>
+  function barChart2D(id, label, bulansuratmasuk, jumlahsuratmasukperbulan, bgcolor, bordercolor, max) {
+    var ctx = document.getElementById(id).getContext("2d");
+    window.myBar = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: bulansuratmasuk,
+        datasets: [{
+          label: label,
+          backgroundColor: bgcolor,
+          data: jumlahsuratmasukperbulan
+        }]
+      },
+      options: {
+        elements: {
+          rectangle: {
+            borderWidth: 1,
+            borderColor: bordercolor,
+            borderSkipped: 'bottom'
+          }
+        },
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Tahun {{date("Y")}}'
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              max: max,
+              beginAtZero: true,
+              callback: function(value, index, values) {
+                if (Math.floor(value) === value) {
+                  return value;
+                }
+              }
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false
+            },
+            // barPercentage: 0.5
+          }]
+        }
+      }
+    });
+  };
+  window.onload = function() {
+    let data = @json($jumlahsuratmasukperbulan).concat(@json($jumlahsuratkeluarperbulan));
+    let max = Math.max(...data);
+    if (max % 100 != 0) {
+      max = max - max % 100 + 100;
+    }
+    barChart2D('suratmasuk', 'Surat Masuk', @json($bulansuratmasuk), @json($jumlahsuratmasukperbulan), 'rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)', max);
+    barChart2D('suratkeluar', 'Surat Keluar', @json($bulansuratkeluar), @json($jumlahsuratkeluarperbulan), 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)', max);
+  };
+
+  function loadSuhu() {
+
+    fetch('/api/suhu')
+      .then(response => response.json())
+      .then(data => {
+
+        document.getElementById('suhu').innerHTML =
+          data.suhu + ' °C';
+
+        let tanggal = new Date(data.waktu);
+        let batasSuhu = -16;
+        let thermo = document.getElementById('thermo');
+        let temperature = document.getElementById('suhu')
+
+        let hasil =
+          tanggal.getDate().toString().padStart(2, '0') + '-' +
+          (tanggal.getMonth() + 1).toString().padStart(2, '0') + '-' +
+          tanggal.getFullYear() + ' ' +
+          tanggal.getHours().toString().padStart(2, '0') + ':' +
+          tanggal.getMinutes().toString().padStart(2, '0');
+
+        document.getElementById('waktu').innerHTML =
+          hasil;
+
+        temperature.classList.toggle(
+          'text-primary',
+          data.suhu <= batasSuhu
+        );
+
+        temperature.classList.toggle(
+          'text-danger',
+          data.suhu > batasSuhu
+        );
+
+        thermo.classList.toggle(
+          'text-primary',
+          data.suhu <= batasSuhu
+        );
+
+        thermo.classList.toggle(
+          'text-danger',
+          data.suhu > batasSuhu
+        );
+
+      })
+      .catch(error => {
+
+        console.log(error);
+      });
+  }
+
+  loadSuhu();
+
+  setInterval(loadSuhu, 5000);
+</script>
 @endsection

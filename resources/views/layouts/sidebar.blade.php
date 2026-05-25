@@ -48,7 +48,7 @@
         </a>
       </li>
       @endif
-      @if(Auth::user()->role == 'admin' || Auth::user()->isCutiApprover())
+      @if(Auth::user()->role != 'pegawai')
       <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('cuti.persetujuan.*') ? 'active' : '' }}" href="{{ route('cuti.persetujuan.index') }}">
           <i class="mdi mdi-check-decagram menu-icon"></i>

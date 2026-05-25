@@ -32,7 +32,7 @@
                                 <td>{{$k->nip}}</td>
                                 <td>{{$k->name}}</td>
                                 <td>{{$k->unitBagian->nama ?? ''}}</td>
-                                <td>{{$k->jabatan->nama}}</td>
+                                <td>{{$k->jabatan->level}} - {{$k->jabatan->nama}}</td>
                                 <td class="text-uppercase">{{$k->role}}</td>
                                 <td>{{$k->email}}</td>
                                 <td class="text-center">
