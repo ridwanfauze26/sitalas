@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('judul','Manajemen Pengguna')
+@section('judul',Auth::user()->role == 'admin'?'Manajemen Pengguna':'Pegawai')
 @section('content')
 <!-- ============================================================== -->
 <!-- Start Page Content -->
@@ -20,7 +20,9 @@
                                 <th>Nama</th>
                                 <th>Unit Bagian</th>
                                 <th>Jabatan</th>
+                                @if(Auth::user()->role == 'admin')
                                 <th>Role</th>
+                                @endif
                                 <th>e-Mail</th>
                                 <th>Aksi</th>
                             </tr>
@@ -33,7 +35,9 @@
                                 <td>{{$k->name}}</td>
                                 <td>{{$k->unitBagian->nama ?? ''}}</td>
                                 <td>{{$k->jabatan->level}} - {{$k->jabatan->nama}}</td>
+                                @if(Auth::user()->role == 'admin')
                                 <td class="text-uppercase">{{$k->role}}</td>
+                                @endif
                                 <td>{{$k->email}}</td>
                                 <td class="text-center">
                                     <a href="{{route('pengguna.edit', $k->id)}}" class="btn btn-sm text-white" title="Edit" style="background-color:#6f42c1;width:38px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;">

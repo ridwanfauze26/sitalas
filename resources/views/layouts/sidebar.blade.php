@@ -84,11 +84,11 @@
         </div>
       </li>
       @endif
-      @if(Auth::user()->role == 'admin')
+      @if(Auth::user()->role != 'pegawai')
       <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('pengguna.*') ? 'active' : '' }}" href="{{ route('pengguna.index') }}">
           <i class="mdi mdi-account menu-icon"></i>
-          <span class="menu-title">Manajemen Pengguna</span>
+          <span class="menu-title">{{Auth::user()->role == 'admin'?'Manajemen Pengguna':'Pegawai'}}</span>
         </a>
       </li>
       @endif

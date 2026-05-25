@@ -25,10 +25,14 @@ class PenggunaController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role  != 'admin') {
+        if (Auth::user()->role  == 'pegawai') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
-        $pengguna = \App\User::orderBy('name')->get();
+        if (Auth::user()->role  == 'admin')
+            $pengguna = \App\User::orderBy('name')->get();
+        else
+            $pengguna = \App\User::orderBy('name')->whereIn('role',['pegawai','kepala','verifikator'])->get();
+
         return view('pengguna.index', compact('pengguna'));
     }
 
@@ -39,11 +43,11 @@ class PenggunaController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->role  != 'admin') {
+        if (Auth::user()->role  != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
-        $jabatan = \App\Jabatan::orderBy('nama','desc')->get();
-        $unitBagian = \App\UnitBagian::orderBy('nama','asc')->get();
+        $jabatan = \App\Jabatan::orderBy('nama', 'desc')->get();
+        $unitBagian = \App\UnitBagian::orderBy('nama', 'asc')->get();
         return view('pengguna.insert', compact('jabatan', 'unitBagian'));
     }
 
@@ -55,7 +59,7 @@ class PenggunaController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->role  != 'admin') {
+        if (Auth::user()->role  != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
@@ -71,7 +75,7 @@ class PenggunaController extends Controller
 
         $check = \App\Jabatan::findOrFail($request->jabatan_id);
         $unitBagian = null;
-        if($request->unit_bagian_id) $unitBagian = \App\UnitBagian::findOrFail($request->unit_bagian_id);
+        if ($request->unit_bagian_id) $unitBagian = \App\UnitBagian::findOrFail($request->unit_bagian_id);
 
         \App\User::create([
             'name' => $request->name,
@@ -106,17 +110,17 @@ class PenggunaController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->role  != 'admin' && Auth::user()->id != $id) {
+        if (Auth::user()->role  != 'admin' && Auth::user()->id != $id) {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
         $pengguna =  \App\User::findOrFail($id);
-        
-        if(\Auth::user()->role != 'admin' && $pengguna->id != \Auth::user()->id)
+
+        if (\Auth::user()->role != 'admin' && $pengguna->id != \Auth::user()->id)
             abort(403, 'Anda tidak mempunyai hak akses');
 
         $jabatan = \App\Jabatan::orderBy('nama')->get();
-        $unitBagian = \App\UnitBagian::orderBy('nama','asc')->get();
+        $unitBagian = \App\UnitBagian::orderBy('nama', 'asc')->get();
         return view('pengguna.edit', compact('jabatan', 'unitBagian', 'pengguna'));
     }
 
@@ -129,7 +133,7 @@ class PenggunaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->role  != 'admin' && Auth::user()->id != $id) {
+        if (Auth::user()->role  != 'admin' && Auth::user()->id != $id) {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
@@ -140,7 +144,7 @@ class PenggunaController extends Controller
         ]);
 
         $user =  \App\User::findOrFail($id);
-        if(\Auth::user()->role != 'admin' && $user->id != \Auth::user()->id)
+        if (\Auth::user()->role != 'admin' && $user->id != \Auth::user()->id)
             abort(403, 'Anda tidak mempunyai hak akses');
 
         $user->nip = $request->nip;
@@ -149,13 +153,13 @@ class PenggunaController extends Controller
 
         // Process unit bagian update for anyone (including staff themselves)
         $unitBagian = null;
-        if($request->unit_bagian_id) {
+        if ($request->unit_bagian_id) {
             $unitBagian = \App\UnitBagian::findOrFail($request->unit_bagian_id);
         }
         $user->unit_bagian_id = $request->unit_bagian_id;
         $user->unit_bagian_nama = $unitBagian ? $unitBagian->nama : null;
 
-        if(Auth::user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             $request->validate([
                 'role' => 'required|string|max:11',
                 'jabatan_id' => 'required|integer',
@@ -165,7 +169,7 @@ class PenggunaController extends Controller
             $user->jabatan_id = $request->jabatan_id;
         }
 
-        if($request->password) {
+        if ($request->password) {
             $request->validate([
                 'password' => 'required|string|min:8|max:32',
             ]);
@@ -184,7 +188,7 @@ class PenggunaController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->role  != 'admin') {
+        if (Auth::user()->role  != 'admin') {
             abort(403, 'Anda tidak memiliki akses untuk mengakses halaman ini');
         }
 
