@@ -543,7 +543,7 @@ class CutiController extends Controller
                 return back()->with('error', 'Status persetujuan Level 1 tidak dalam kondisi menunggu');
             }
             $cuti->status_level1 = 'Disetujui';
-            $cuti->approved_level1_by = Auth::user()->id;
+            $cuti->approved_level1_by = User::where('jabatan','kepala')->pluck('id')->first();
             $cuti->approved_level1_at = now();
         } else {
             if ($cuti->status_level2 !== 'Menunggu') {
