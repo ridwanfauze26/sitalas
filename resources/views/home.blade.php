@@ -33,7 +33,7 @@
         <div class="tab-content py-0 px-0">
           <div class="d-flex flex-wrap justify-content-xl-between">
             <div class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-              <a href="{{ route('surat-masuk.index') }}"><i class="mdi mdi-download icon-lg mr-3 text-primary"></i></a>
+              <a href="{{ route('surat-masuk.index') }}"><i class="mdi mdi-inbox-arrow-down icon-lg mr-3 text-success"></i></a>
               <div class="d-flex flex-column justify-content-around">
                 <small class="mb-1 text-muted">Jumlah Surat Masuk</small>
                 <h5 class="mb-0 d-inline-block">{{ $dashboardCount['suratMasuk'] }}</h5>
@@ -42,11 +42,11 @@
               </div>
             </div>
             <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-              <a href="{{ route('surat-keluar.index') }}"><i class="mdi mdi-upload mr-3 icon-lg text-danger"></i></a>
+              <a href="{{ route('surat-keluar.index') }}"><i class="mdi mdi-inbox-arrow-up mr-3 icon-lg text-danger"></i></a>
               <div class="d-flex flex-column justify-content-around">
                 <small class="mb-1 text-muted">Jumlah Surat Keluar</small>
                 <h5 class="mr-2 mb-0">{{ $dashboardCount['suratKeluar'] }}</h5>
-                <small class="mb-1 text-muted">Surat Keluar Belum Bernomor</small>
+                <small class="mb-1 text-muted">Belum Bernomor</small>
                 <h5 class="mr-2 mb-0">{{ $dashboardCount['belumBernomor'] }}</h5>
               </div>
             </div>
@@ -61,7 +61,7 @@
             @endif
             @if(Auth::user()->role == 'admin')
             <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-              <a href="{{ route('klasifikasi-surat.index') }}"><i class="mdi mdi-note-text mr-3 icon-lg text-success"></i></a>
+              <a href="{{ route('klasifikasi-surat.index') }}"><i class="mdi mdi-file-document mr-3 icon-lg text-secondary"></i></a>
               <div class="d-flex flex-column justify-content-around">
                 <small class="mb-1 text-muted">Jumlah Klasifikasi Surat</small>
                 <h5 class="mr-2 mb-0">{{ $dashboardCount['klasifikasi'] }}</h5>

@@ -17,7 +17,7 @@
                                 <th>Tanggal Selesai</th>
                                 <th>Lama Cuti</th>
                                 <th>Alasan</th>
-                                <th>Status Pengajuan</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -75,7 +75,7 @@
 <script>
 $(function() {
     $('#table').DataTable({
-        "ordering": false
+        "ordering": true
     });
 });
 </script>

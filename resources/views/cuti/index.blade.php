@@ -31,7 +31,7 @@ return $c->status_pengajuan === 'Perubahan';
                                 <th>Tanggal Selesai</th>
                                 <th>Lama Cuti</th>
                                 <th>Alasan</th>
-                                <th>Status Pengajuan</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -106,7 +106,7 @@ return $c->status_pengajuan === 'Perubahan';
 <script>
     $(function() {
         $('#table').DataTable({
-            "ordering": false
+            "ordering": true
         });
     });
 </script>

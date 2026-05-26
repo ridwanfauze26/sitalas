@@ -142,6 +142,7 @@
     </div>
 </div>
 
+@if(Auth::user()->role!='admin')
 <div class="row mt-4">
     <div class="col-12">
         <div class="card">
@@ -191,16 +192,17 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 @push('js')
 <script>
 $(function() {
     $('#table').DataTable({
-        "ordering": false
+        "ordering": true
     });
     $('#historyTable').DataTable({
-        "ordering": false
+        "ordering": true
     });
 });
 

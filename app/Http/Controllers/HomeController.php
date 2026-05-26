@@ -150,7 +150,7 @@ class HomeController extends Controller
         } elseif ((int) Auth::user()->cuti_level === 1) {
             $visibleLevels = [2, 3];
         } elseif ((int) Auth::user()->cuti_level === 2) {
-            $visibleLevels = [3];
+            $visibleLevels = [2,3];
         }
 
         if (!$visibleLevels) {

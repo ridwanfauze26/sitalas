@@ -142,8 +142,8 @@
 </div>
 
 <script>
-    (function () {
-        
+    (function() {
+
         function setSaldoVisible(isTahunan) {
             var el = document.getElementById('saldoCutiTahunan');
             if (!el) return;
@@ -152,23 +152,25 @@
 
         function setSaldo(data) {
             document.getElementById('saldoN').innerText = (data && data['N'] !== undefined) ? data['N'] : '-';
-            
-            if(data['N'] == 0 && document.getElementById('jenis_cuti').value == 'cuti_tahunan')
+
+            if (data['N'] == 0 && document.getElementById('jenis_cuti').value == 'cuti_tahunan')
                 document.getElementById('ajukan').disabled = true;
-            
+
         }
 
         function fetchSaldo() {
             return fetch("{{ route('cuti.tahunan.saldo') }}", {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(function(r) {
+                    return r.json();
+                })
+                .then(function(data) {
                     setSaldo(data);
                 })
-                .catch(function () {
+                .catch(function() {
                     setSaldo(null);
                 });
         }
@@ -201,7 +203,7 @@
             var isSakit = jenis.value === 'cuti_sakit';
             if (dokSakit) {
                 dokSakit.style.display = isSakit ? 'flex' : 'none';
-                document.getElementById('suratdokter').required = dokSakit.style.display == 'flex' ?  true : false;
+                document.getElementById('suratdokter').required = dokSakit.style.display == 'flex' ? true : false;
             }
 
             var dokLuar = document.getElementById('dokumenCutiLuar');
@@ -209,7 +211,7 @@
             var isLuar = jenis.value === 'cuti_luar_tanggungan';
             if (dokLuar) {
                 dokLuar.style.display = isLuar ? 'flex' : 'none';
-                document.getElementById('SKPPK').required = dokLuar.style.display == 'flex' ?  true : false;
+                document.getElementById('SKPPK').required = dokLuar.style.display == 'flex' ? true : false;
             }
             if (isLuar && alasanMode) {
                 alasanMode.value = 'bulan';
@@ -245,11 +247,21 @@
                             </div>
                         `;
                         instance.calendarContainer.appendChild(footer);
-                        
+
                         function updateTime() {
                             const now = new Date();
-                            const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
-                            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+                            const timeStr = now.toLocaleTimeString('en-US', {
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                hour12: true
+                            });
+                            const dateStr = now.toLocaleDateString('en-US', {
+                                weekday: 'long',
+                                month: 'long',
+                                day: 'numeric',
+                                year: 'numeric'
+                            });
                             const clockEl = footer.querySelector(".time-clock");
                             const dateEl = footer.querySelector(".time-date");
                             if (clockEl) clockEl.textContent = timeStr;
