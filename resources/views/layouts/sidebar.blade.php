@@ -48,14 +48,14 @@
         </a>
       </li>
       @endif
-      @if(Auth::user()->role != 'pegawai')
-      <li class="nav-item">
-        <a class="nav-link {{ request()->routeIs('cuti.persetujuan.*') ? 'active' : '' }}" href="{{ route('cuti.persetujuan.index') }}">
-          <i class="mdi mdi-check-decagram menu-icon"></i>
-          <span class="menu-title">Persetujuan Cuti</span>
-        </a>
-      </li>
-      @endif
+        @if(Auth::user()->role != 'pegawai')
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('cuti.persetujuan.*') ? 'active' : '' }}" href="{{ route('cuti.persetujuan.index') }}">
+            <i class="mdi mdi-check-decagram menu-icon"></i>
+            <span class="menu-title">Persetujuan Cuti</span>
+          </a>
+        </li>
+        @endif
       @if(Auth::user()->role == 'admin' || Auth::user()->role == 'kepala' || Auth::user()->role == 'verifikator' || Auth::user()->role == 'pegawai')
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#dokumen" aria-expanded="false" aria-controls="dokumen">

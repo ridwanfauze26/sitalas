@@ -83,14 +83,14 @@
                         <div class="form-group row" id="dokumenCutiSakit" style="display:none;">
                             <label class="col-sm-3 col-form-label">Surat Dokter/Bidan</label>
                             <div class="col-sm-9">
-                                <input type="file" class="form-control" name="dokumen_sakit" accept=".pdf,.jpg,.jpeg,.png">
+                                <input type="file" class="form-control" name="dokumen_sakit" accept=".pdf,.jpg,.jpeg,.png" id="suratdokter">
                             </div>
                         </div>
 
                         <div class="form-group row" id="dokumenCutiLuar" style="display:none;">
                             <label class="col-sm-3 col-form-label">Surat Keputusan PPK</label>
                             <div class="col-sm-9">
-                                <input type="file" class="form-control" name="dokumen_ppk" accept=".pdf">
+                                <input type="file" class="form-control" name="dokumen_ppk" accept=".pdf" id="SKPPK">
                             </div>
                         </div>
 
@@ -179,6 +179,7 @@
             var isSakit = jenis.value === 'cuti_sakit';
             if (dokSakit) {
                 dokSakit.style.display = isSakit ? 'flex' : 'none';
+                document.getElementById('suratdokter').required = dokSakit.style.display == 'flex' ?  true : false;
             }
 
             var dokLuar = document.getElementById('dokumenCutiLuar');
@@ -186,6 +187,7 @@
             var isLuar = jenis.value === 'cuti_luar_tanggungan';
             if (dokLuar) {
                 dokLuar.style.display = isLuar ? 'flex' : 'none';
+                document.getElementById('SKPPK').required = dokLuar.style.display == 'flex' ?  true : false;
             }
             if (isLuar && alasanMode) {
                 alasanMode.value = 'bulan';

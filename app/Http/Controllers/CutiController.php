@@ -983,7 +983,7 @@ class CutiController extends Controller
             abort(403, 'Pengajuan cuti yang sudah disetujui tidak dapat dihapus');
         }
 
-        if ($cuti->jenis_cuti === 'cuti_tahunan' && isset($cutitahunanbalance->dipakai)) {
+        if ($cuti->jenis_cuti === 'cuti_tahunan' && isset($cutitahunanbalance->dipakai) && $cuti->status_pengajuan === 'Disetujui') {
             $cutitahunanbalance->dipakai = (int)$cutitahunanbalance->dipakai - (int)$cuti->lama_cuti;
             $cutitahunanbalance->save();
         }

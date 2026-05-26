@@ -112,7 +112,7 @@
               <a href="{{ route('cuti.persetujuan.index') }}"><i class="mdi mdi-check-decagram icon-lg mr-3 text-primary"></i></a>
               <div class="d-flex flex-column justify-content-around">
                 <small class="mb-1 text-muted">Persetujuan Cuti</small>
-                <h5 class="mr-2 mb-0">{{ $dashboardCount['persetujuanCuti']}}</h5>
+                <h5 class="mr-2 mb-0" id="jumlahCuti"></h5>
               </div>
             </div>
             <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
@@ -298,15 +298,13 @@
     barChart2D('suratkeluar', 'Surat Keluar', @json($bulansuratkeluar), @json($jumlahsuratkeluarperbulan), 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)', max);
   };
 
-  function loadSuhu() {
+  function loadData() {
 
     fetch('/api/suhu')
       .then(response => response.json())
       .then(data => {
 
-        document.getElementById('suhu').innerHTML =
-          data.suhu + ' °C';
-
+      
         let tanggal = new Date(data.waktu);
         let batasSuhu = -16;
         let thermo = document.getElementById('thermo');
@@ -318,6 +316,8 @@
           tanggal.getFullYear() + ' ' +
           tanggal.getHours().toString().padStart(2, '0') + ':' +
           tanggal.getMinutes().toString().padStart(2, '0');
+
+        temperature.innerHTML = data.suhu + ' °C';
 
         document.getElementById('waktu').innerHTML =
           hasil;
@@ -344,13 +344,32 @@
 
       })
       .catch(error => {
+        console.log(error);
+      });
+
+    fetch('/api/jumlah-cuti')
+      .then(response => response.json())
+      .then(data => {
+
+        let jumlahCuti = document.getElementById('jumlahCuti');
+
+        jumlahCuti.innerHTML = data.persetujuanCuti;
+
+        jumlahCuti.classList.toggle(
+          'text-primary',
+          data.persetujuanCuti > 0
+        )
+
+      })
+      .catch(error => {
 
         console.log(error);
+
       });
   }
 
-  loadSuhu();
+  loadData();
 
-  setInterval(loadSuhu, 5000);
+  setInterval(loadData, 5000);
 </script>
 @endsection

@@ -63,9 +63,6 @@ class HomeController extends Controller
         $belumBernomor = \App\SuratKeluar::whereNULL('nomor_surat')->count();
         $jumlahPegawai = \App\User::whereIn('role', ['kepala', 'verifikator', 'pegawai'])->count();
         $persetujuanCuti = \App\Cuti::with('user')->where('status_pengajuan', 'Menunggu Persetujuan');
-        
-        // $response = Http::get($url);
-        // $tempCoolRoom = $response->successful() ? $response->json()['suhu']: 'Gagal mengambil data';
 
         if (Auth::user()->role == 'kepala') {
             $persetujuanCuti = $persetujuanCuti->where('status_level1', 'Menunggu')
@@ -317,5 +314,25 @@ class HomeController extends Controller
         return response()->json([
             'message' => 'Gagal mengambil data'
         ], 500);
+    }
+
+    public function jumlahCuti()
+    {
+        $persetujuanCuti = \App\Cuti::with('user')->where('status_pengajuan', 'Menunggu Persetujuan');
+
+        if (Auth::user()->role == 'kepala') {
+            $persetujuanCuti = $persetujuanCuti->where('status_level1', 'Menunggu')
+                ->whereIn('status_level2', ['Disetujui', 'Tidak Perlu'])->count();
+        } else if (Auth::user()->role == 'verifikator') {
+            $persetujuanCuti = $persetujuanCuti->whereHas('user', function ($q) {
+                $q->where('unit_bagian_id', Auth::user()->unit_bagian_id);
+            })->where('status_level2', 'Menunggu')->count();
+        } else {
+            $persetujuanCuti = $persetujuanCuti->count();
+        }
+
+        return response()->json([
+            'persetujuanCuti' => $persetujuanCuti
+        ]);
     }
 }

@@ -26,7 +26,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Lama Cuti</label>
                                 <div class="col-sm-4">
-                                    <input type="number" class="form-control" name="lama_cuti" id="lama_cuti" placeholder="" min="1" step="1">
+                                    <input type="number" class="form-control" name="lama_cuti" id="lama_cuti" placeholder="" min="1" step="1" required>
                                 </div>
                                 <div class="col-sm-2">
                                     <select class="form-control" name="alasan_mode" id="alasan_mode">
@@ -49,14 +49,14 @@
                             <div class="form-group row" id="dokumenCutiSakit" style="display:none;">
                                 <label class="col-sm-3 col-form-label">Surat Dokter/Bidan</label>
                                 <div class="col-sm-9">
-                                    <input type="file" class="form-control" name="dokumen_sakit" accept=".pdf,.jpg,.jpeg,.png">
+                                    <input type="file" class="form-control" name="dokumen_sakit" accept=".pdf,.jpg,.jpeg,.png" id="suratdokter">
                                 </div>
                             </div>
 
                             <div class="form-group row" id="dokumenCutiLuar" style="display:none;">
                                 <label class="col-sm-3 col-form-label">Surat Keputusan PPK</label>
                                 <div class="col-sm-9">
-                                    <input type="file" class="form-control" name="dokumen_ppk" accept=".pdf">
+                                    <input type="file" class="form-control" name="dokumen_ppk" accept=".pdf" id="SKPPK">
                                 </div>
                             </div>
 
@@ -72,35 +72,35 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Alasan Cuti</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="alasan_cuti" placeholder="">
+                                    <input type="text" class="form-control" name="alasan_cuti" placeholder="" required>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Tanggal Mulai Cuti</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control flatpickr" name="tanggal_mulai" placeholder="dd/mm/yyyy">
+                                    <input type="text" class="form-control flatpickr" name="tanggal_mulai" placeholder="dd/mm/yyyy" required>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Tanggal Selesai Cuti</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control flatpickr" name="tanggal_selesai" placeholder="dd/mm/yyyy">
+                                    <input type="text" class="form-control flatpickr" name="tanggal_selesai" placeholder="dd/mm/yyyy" required>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Alamat Selama Cuti</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="alamat" placeholder="">
+                                    <input type="text" class="form-control" name="alamat" placeholder="" required>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">No. Telepon</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" name="no_telepon" placeholder="">
+                                    <input type="text" class="form-control" name="no_telepon" placeholder="" required>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                             </div>
 
                             <div class="d-flex align-items-end justify-content-center" style="margin-top: 12px;">
-                                <button type="submit" class="btn btn-primary">Ajukan Cuti</button>
+                                <button type="submit" class="btn btn-primary" id="ajukan">Ajukan Cuti</button>
                             </div>
                         </div>
                     </div>
@@ -143,6 +143,7 @@
 
 <script>
     (function () {
+        
         function setSaldoVisible(isTahunan) {
             var el = document.getElementById('saldoCutiTahunan');
             if (!el) return;
@@ -151,6 +152,10 @@
 
         function setSaldo(data) {
             document.getElementById('saldoN').innerText = (data && data['N'] !== undefined) ? data['N'] : '-';
+            
+            if(data['N'] == 0 && document.getElementById('jenis_cuti').value == 'cuti_tahunan')
+                document.getElementById('ajukan').disabled = true;
+            
         }
 
         function fetchSaldo() {
@@ -173,6 +178,7 @@
         if (!jenis) return;
 
         function refreshInfo() {
+            document.getElementById('ajukan').disabled = false;
             var isTahunan = jenis.value === 'cuti_tahunan';
             setSaldoVisible(isTahunan);
             if (isTahunan) {
@@ -195,6 +201,7 @@
             var isSakit = jenis.value === 'cuti_sakit';
             if (dokSakit) {
                 dokSakit.style.display = isSakit ? 'flex' : 'none';
+                document.getElementById('suratdokter').required = dokSakit.style.display == 'flex' ?  true : false;
             }
 
             var dokLuar = document.getElementById('dokumenCutiLuar');
@@ -202,6 +209,7 @@
             var isLuar = jenis.value === 'cuti_luar_tanggungan';
             if (dokLuar) {
                 dokLuar.style.display = isLuar ? 'flex' : 'none';
+                document.getElementById('SKPPK').required = dokLuar.style.display == 'flex' ?  true : false;
             }
             if (isLuar && alasanMode) {
                 alasanMode.value = 'bulan';

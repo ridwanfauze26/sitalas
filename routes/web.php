@@ -23,16 +23,16 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false, 'reset' => false]);
 
-Route::get('/cuti', 'CutiController@index')->middleware('auth')->name('cuti.index');
-Route::get('/cuti/ajukan', 'CutiController@create')->middleware('auth')->name('cuti.ajukan');
-Route::post('/cuti', 'CutiController@store')->middleware('auth')->name('cuti.store');
-Route::get('/cuti/tahunan/saldo', 'CutiController@tahunanSaldo')->middleware('auth')->name('cuti.tahunan.saldo');
+Route::get('/cuti-user', 'CutiController@index')->middleware('auth')->name('cuti.index');
+Route::get('/cuti-user/ajukan', 'CutiController@create')->middleware('auth')->name('cuti.ajukan');
+Route::post('/cuti-user', 'CutiController@store')->middleware('auth')->name('cuti.store');
+Route::get('/cuti-user/tahunan/saldo', 'CutiController@tahunanSaldo')->middleware('auth')->name('cuti.tahunan.saldo');
 
-Route::get('/cuti/{id}', 'CutiController@show')->middleware('auth')->name('cuti.show');
-Route::get('/cuti/{id}/{qr}/pdf', 'CutiController@pdf')->middleware('auth')->name('cuti.pdf');
-Route::get('/cuti/{id}/edit', 'CutiController@edit')->middleware('auth')->name('cuti.edit');
-Route::put('/cuti/{id}', 'CutiController@update')->middleware('auth')->name('cuti.update');
-Route::delete('/cuti/{id}', 'CutiController@destroy')->middleware('auth')->name('cuti.destroy');
+Route::get('/cuti-user/{id}', 'CutiController@show')->middleware('auth')->name('cuti.show');
+Route::get('/cuti-user/{id}/{qr}/pdf', 'CutiController@pdf')->middleware('auth')->name('cuti.pdf');
+Route::get('/cuti-user/{id}/edit', 'CutiController@edit')->middleware('auth')->name('cuti.edit');
+Route::put('/cuti-user/{id}', 'CutiController@update')->middleware('auth')->name('cuti.update');
+Route::delete('/cuti-user/{id}', 'CutiController@destroy')->middleware('auth')->name('cuti.destroy');
 
 Route::get('/cuti-admin', 'CutiController@adminIndex')->middleware('auth')->name('cuti.admin.index');
 
@@ -93,6 +93,7 @@ Route::get('/disposisi', 'HomeController@disposisi')->name('disposisi');
 Route::post('/respon/{id}', 'HomeController@respon')->name('respon');
 Route::get('/tracking-disposisi/{id}/user/{user}', 'HomeController@tracking');
 Route::get('/api/suhu', [HomeController::class, 'getSuhu']);
+Route::get('/api/jumlah-cuti', [HomeController::class, 'jumlahCuti']);
 
 // Kelola Data SOP
 Route::get('/sop/data', [SOPController::class, 'getData'])->name('sop.data');
