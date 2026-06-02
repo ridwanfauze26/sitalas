@@ -187,7 +187,7 @@
 
 <div class="row ">
   <div class="col-md-6  col-md-offset-1">
-    <div class="card rounded-lg shadow-sm">
+    <div class="card rounded-lg shadow-sm justify-content-center">
       <div class="panel panel-default">
         <div class="panel-body">
           <canvas id="suratmasuk" height="400" width="600"></canvas>
@@ -209,7 +209,7 @@
 
 <div class="row grid-margin">
   <div class="col-md-6  col-md-offset-1 stretch-card">
-    <div class="card rounded-lg shadow-sm">
+    <div class="card rounded-lg shadow-sm justify-content-center">
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
@@ -226,15 +226,15 @@
               @endforeach
 
               <div class="d-flex flex-wrap" style="gap:18px;">
-                <div class="text-center" style="min-width:140px;">
+                <div class="text-center">
                   <small class="mb-1 text-muted d-block">Surat Keluar Ajuan</small>
                   <h5 class="mb-0">{{ count($dashboardCount['suratKeluar']) }}</h5>
                 </div>
-                <div class="text-center" style="min-width:120px;">
+                <div class="text-center">
                   <small class="mb-1 text-muted d-block">Belum Bernomor</small>
                   <h5 class="mb-0">{{ $nomor_kosong }}</h5>
                 </div>
-                <div class="text-center" style="min-width:100px;">
+                <div class="text-center">
                   <small class="mb-1 text-muted d-block">Bernomor</small>
                   <h5 class="mb-0">{{ $nomor_terisi }}</h5>
                 </div>
@@ -246,7 +246,7 @@
     </div>
   </div>
   <div class="col-md-3 col-md-offset-1 stretch-card">
-    <div class="card rounded-lg shadow-sm">
+    <div class="card rounded-lg shadow-sm justify-content-center">
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
@@ -264,7 +264,7 @@
   </div>
   @if(Auth::user()->role != 'admin')
   <div class="col-md-3 col-md-offset-1 stretch-card">
-    <div class="card rounded-lg shadow-sm">
+    <div class="card rounded-lg shadow-sm justify-content-center">
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
@@ -285,7 +285,7 @@
 @if(Auth::user()->unit_bagian_id == 2)
 <div class="row gird-margin">
   <div class="col-md-3 grid-margin stretch-card">
-    <div class="card rounded-lg shadow-sm bg-dark">
+    <div class="card rounded-lg shadow-sm bg-dark justify-content-center">
       <div class="card-body dashboard-tabs p-0">
         <div class="tab-content py-0 px-0">
           <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
