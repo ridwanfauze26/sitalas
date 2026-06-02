@@ -81,10 +81,10 @@
                                     @if(Auth::user()->role == 'admin')
                                         <select class="form-control form-control-sm d-inline-block" style="width:120px;height:30px;padding:0 6px;">
                                             @if($c->status_level1 == 'Menunggu')
-                                                <option value="1" selected>Level 1</option>
+                                                <option value="1">Level 1</option>
                                             @endif
                                             @if($c->status_level2 == 'Menunggu')
-                                                <option value="2" {{ $c->status_level1 != 'Menunggu' ? 'selected' : '' }}>Level 2</option>
+                                                <option value="2" {{ $c->status_level1 == 'Menunggu' ? 'selected' : '' }}>Level 2</option>
                                             @endif
                                         </select>
                                     @endif
