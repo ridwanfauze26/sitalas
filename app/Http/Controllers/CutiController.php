@@ -537,20 +537,20 @@ class CutiController extends Controller
 
         $cuti = \App\Cuti::with('user')->findOrFail($id);
         $level = $this->determineApprovalLevel($cuti, $request);
-
+        
         if ($level === 1) {
             if ($cuti->status_level1 !== 'Menunggu') {
                 return back()->with('error', 'Status persetujuan Level 1 tidak dalam kondisi menunggu');
             }
             $cuti->status_level1 = 'Disetujui';
-            $cuti->approved_level1_by = User::where('jabatan','kepala')->pluck('id')->first();
+            $cuti->approved_level1_by = Auth::user()->role == 'admin'? User::where('role','kepala')->pluck('id')->first():Auth::user()->id;
             $cuti->approved_level1_at = now();
         } else {
             if ($cuti->status_level2 !== 'Menunggu') {
                 return back()->with('error', 'Status persetujuan Level 2 tidak dalam kondisi menunggu');
             }
             $cuti->status_level2 = 'Disetujui';
-            $cuti->approved_level2_by = Auth::user()->id;
+            $cuti->approved_level2_by = Auth::user()->role == 'admin'? User::where('role','verifikator')->where('unit_bagian_id',$cuti->user->unit_bagian_id)->pluck('id')->first():Auth::user()->id;
             $cuti->approved_level2_at = now();
         }
 
