@@ -19,7 +19,8 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-    private $users = ['admin','kepala','verifikator','pegawai'];
+    private $users = ['admin', 'kepala', 'verifikator', 'pegawai'];
+    protected $redirectTo = '/home';
 
     use AuthenticatesUsers;
 
@@ -28,13 +29,16 @@ class LoginController extends Controller
      *
      * @var string
      */
-    public function redirectTo() {
-        // if(in_array(Auth::user()->role,$this->users)) {
-            return '/home';
-        // }
-        // else {
-        //     return '/disposisi';
-        // }
+    protected function authenticated($request, $user)
+    {
+        $request->session()->forget('url.intended');
+
+        return redirect('/home');
+    }
+
+    public function redirectTo()
+    {
+        return '/home';
     }
 
     /**

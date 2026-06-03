@@ -95,6 +95,7 @@ Route::get('/tracking-disposisi/{id}/user/{user}', 'HomeController@tracking');
 Route::get('/api/suhu', [HomeController::class, 'getSuhu']);
 Route::get('/api/jumlah-cuti', [HomeController::class, 'jumlahCuti']);
 
+
 // Kelola Data SOP
 Route::get('/sop/data', [SOPController::class, 'getData'])->name('sop.data');
 Route::resource('sop', SOPController::class);

@@ -225,7 +225,7 @@
               @endphp
               @endforeach
 
-              <div class="d-flex flex-wrap" style="gap:18px;">
+              <div class="d-flex flex-wrap" style="gap:20px;">
                 <div class="text-center">
                   <small class="mb-1 text-muted d-block">Surat Keluar Ajuan</small>
                   <h5 class="mb-0">{{ count($dashboardCount['suratKeluar']) }}</h5>
@@ -252,7 +252,7 @@
           <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
             <a href="{{ route('disposisi') }}"><i class="mdi mdi-human-greeting menu-icon mr-3 icon-lg text-warning"></i></a>
             <div class="d-flex flex-column justify-content-around">
-              <div class="text-center" style="min-width:140px;">
+              <div class="text-center">
                 <small class="mb-1 text-muted d-block">Jumlah Disposisi</small>
                 <h5 class="mb-0">{{ $dashboardCount['jumlahDisposisi'] }}</h5>
               </div>
@@ -270,7 +270,7 @@
           <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
             <a href="{{ route('cuti.index') }}"><i class="mdi mdi-calendar-text mr-3 icon-lg text-info"></i></a>
             <div class="d-flex flex-column justify-content-around">
-              <div class="text-center" style="min-width:140px;">
+              <div class="text-center">
                 <small class="mb-1 text-muted d-block">Sisa Cuti Tahunan ({{ date('Y') }})</small>
                 <h5 class="mb-0">{{ $dashboardCount['sisaCuti'] }} Hari</h5>
               </div>
@@ -374,78 +374,74 @@
     barChart2D('suratkeluar', 'Surat Keluar', @json($bulansuratkeluar), @json($jumlahsuratkeluarperbulan), 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)', max);
   };
 
-  function loadData() {
+  document.addEventListener('DOMContentLoaded', function() {
+    loadData();
+    setInterval(loadData, 5000);
+});
 
-    fetch('/api/suhu')
-      .then(response => response.json())
-      .then(data => {
+  async function loadData() {
+  try {
+    const [suhuResponse, cutiResponse] = await Promise.all([
+      fetch('/api/suhu'),
+      fetch('/api/jumlah-cuti')
+    ]);
 
+    const suhuData = await suhuResponse.json();
+    const cutiData = await cutiResponse.json();
 
-        let tanggal = new Date(data.waktu);
-        let batasSuhu = -16;
-        let thermo = document.getElementById('thermo');
-        let temperature = document.getElementById('suhu')
+    // Data suhu
+    let tanggal = new Date(suhuData.waktu);
+    let batasSuhu = -8;
 
-        let hasil =
-          tanggal.getDate().toString().padStart(2, '0') + '-' +
-          (tanggal.getMonth() + 1).toString().padStart(2, '0') + '-' +
-          tanggal.getFullYear() + ' ' +
-          tanggal.getHours().toString().padStart(2, '0') + ':' +
-          tanggal.getMinutes().toString().padStart(2, '0');
+    let thermo = document.getElementById('thermo');
+    let temperature = document.getElementById('suhu');
 
-        temperature.innerHTML = data.suhu + ' °C';
+    let hasil =
+      tanggal.getDate().toString().padStart(2, '0') + '-' +
+      (tanggal.getMonth() + 1).toString().padStart(2, '0') + '-' +
+      tanggal.getFullYear() + ' ' +
+      tanggal.getHours().toString().padStart(2, '0') + ':' +
+      tanggal.getMinutes().toString().padStart(2, '0');
 
-        document.getElementById('waktu').innerHTML =
-          hasil;
+    temperature.innerHTML = suhuData.suhu + ' °C';
+    document.getElementById('waktu').innerHTML = hasil;
 
-        temperature.classList.toggle(
-          'text-primary',
-          data.suhu <= batasSuhu
-        );
+    temperature.classList.toggle(
+      'text-primary',
+      suhuData.suhu <= batasSuhu
+    );
 
-        temperature.classList.toggle(
-          'text-danger',
-          data.suhu > batasSuhu
-        );
+    temperature.classList.toggle(
+      'text-danger',
+      suhuData.suhu > batasSuhu
+    );
 
-        thermo.classList.toggle(
-          'text-primary',
-          data.suhu <= batasSuhu
-        );
+    thermo.classList.toggle(
+      'text-primary',
+      suhuData.suhu <= batasSuhu
+    );
 
-        thermo.classList.toggle(
-          'text-danger',
-          data.suhu > batasSuhu
-        );
+    thermo.classList.toggle(
+      'text-danger',
+      suhuData.suhu > batasSuhu
+    );
 
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    // Data jumlah cuti
+    let jumlahCuti = document.getElementById('jumlahCuti');
 
-    fetch('/api/jumlah-cuti')
-      .then(response => response.json())
-      .then(data => {
+    jumlahCuti.innerHTML = cutiData.persetujuanCuti;
 
-        let jumlahCuti = document.getElementById('jumlahCuti');
+    jumlahCuti.classList.toggle(
+      'text-primary',
+      cutiData.persetujuanCuti > 0
+    );
 
-        jumlahCuti.innerHTML = data.persetujuanCuti;
-
-        jumlahCuti.classList.toggle(
-          'text-primary',
-          data.persetujuanCuti > 0
-        )
-
-      })
-      .catch(error => {
-
-        console.log(error);
-
-      });
+  } catch (error) {
+    console.error('Gagal memuat data:', error);
   }
+}
 
-  loadData();
 
-  setInterval(loadData, 5000);
+
 </script>
 @endsection

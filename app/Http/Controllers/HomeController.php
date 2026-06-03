@@ -301,6 +301,7 @@ class HomeController extends Controller
         $url = 'https://thermoveta.bpmsph.org/controllers/temperature/get_latest_temperature.php';
         $response = Http::get($url);
 
+        
         if ($response->successful()) {
 
             $data = $response->json();
